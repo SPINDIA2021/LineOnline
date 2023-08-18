@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingVertical="7dp"
+    >
+    <TextView
+        android:id="@+id/crdt_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Credit:"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:paddingHorizontal="15dp"/>
+    <TextView
+        android:id="@+id/currbal_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="9999999999"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:paddingHorizontal="15dp"/>
+    <TextView
+        android:id="@+id/datetime_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="9999999999"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:paddingHorizontal="15dp"/>
+    <TextView
+        android:id="@+id/remark_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="9999999999"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:paddingHorizontal="15dp"/>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#A3A0A0"
+        android:layout_marginTop="7dp"/>
+</LinearLayout>

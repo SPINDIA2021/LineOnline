@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_number": "157649313625",
+    "firebase_url": "https://rechargeapp-b068b-default-rtdb.firebaseio.com",
+    "project_id": "rechargeapp-b068b",
+    "storage_bucket": "rechargeapp-b068b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:157649313625:android:bdabbd04cd5fced61e3648",
+        "android_client_info": {
+          "package_name": "com.spindia.rechargeapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "157649313625-dco21r9gtec9d41am9hkrgq1muen14gv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.spindia.rechargeapp",
+            "certificate_hash": "9aa8b0368489e19785274892545098be7b9fd0cc"
+          }
+        },
+        {
+          "client_id": "157649313625-r3sg47palljmjqujb2mgnq6qhgp1slgn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.spindia.rechargeapp",
+            "certificate_hash": "f919306cf44b60eae23c1b5e1dece38475976093"
+          }
+        },
+        {
+          "client_id": "157649313625-jtuomfcg27rilggt28kb2q5ju0f2rouh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAG5we1dclPUfhOIy1DxM9hgZ8IAurs_fI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "157649313625-jtuomfcg27rilggt28kb2q5ju0f2rouh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

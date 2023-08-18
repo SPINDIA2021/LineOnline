@@ -1,0 +1,3 @@
+include ':fingpaymicroatm'
+include ':app',':cropper'
+rootProject.name = "SP India Pay"
