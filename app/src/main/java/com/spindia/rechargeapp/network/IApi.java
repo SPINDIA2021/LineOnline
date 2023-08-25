@@ -41,13 +41,13 @@ public interface IApi {
 
 
     @Multipart
-    @POST("Appapi/checkrechargestatus")
+    @POST("MobileAppapi/checkrechargestatus")
     Call<BaseResponse> saveRetry(@Part("txnid") RequestBody txnid);
 
- @Multipart
- @POST("Appapi/pancardform")
- Call<BaseResponse> getPanForm(@Part("cus_username") RequestBody cus_username,
-                               @Part("password") RequestBody password);
+   @Multipart
+   @POST("MobileAppapi/pancardform")
+   Call<BaseResponse> getPanForm(@Part("cus_username") RequestBody cus_username,
+                                 @Part("password") RequestBody password);
 
 
 }

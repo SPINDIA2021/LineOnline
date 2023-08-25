@@ -37,29 +37,29 @@ public interface MainIAPI {
 
 
     @Multipart
-    @POST("Appapi/shareapi_checkmobile")
+    @POST("MobileAppapi/shareapi_checkmobile")
     Call<BaseCheckMobileResponse> checkMobile(@Part("mobile") RequestBody mobile);
 
     @Multipart
-    @POST("Appapi/shareapi_checkmobile")
+    @POST("MobileAppapi/shareapi_checkmobile")
     Call<FalseCheckMobileResponse> falseCheckMobile(@Part("mobile") RequestBody mobile);
 
 
     @Multipart
-    @POST("Appapi/shareapi_login")
+    @POST("MobileAppapi/shareapi_login")
     Call<LoginMainResponse> login(@Part("mobile") RequestBody mobile, @Part("password") RequestBody password);
 
     @Multipart
-    @POST("Appapi/shareapi_login")
+    @POST("MobileAppapi/shareapi_login")
     Call<FalseCheckMobileResponse> falseLogin(@Part("mobile") RequestBody mobile, @Part("password") RequestBody password);
 
 
     @Multipart
-    @POST("Appapi/shareapi_signup")
+    @POST("MobileAppapi/shareapi_signup")
     Call<LoginMainResponse> signUp(@Part("mobile") RequestBody mobile, @Part("email") RequestBody email, @Part("password") RequestBody password);
 
     @Multipart
-    @POST("Appapi/shareapi_signup")
+    @POST("MobileAppapi/shareapi_signup")
     Call<FalseCheckMobileResponse> falseSignUp(@Part("mobile") RequestBody mobile,@Part("email") RequestBody email, @Part("password") RequestBody password);
 
     @Multipart
@@ -91,16 +91,16 @@ public interface MainIAPI {
     Call<BaseUpdatePaymentStatusResponse> updateStatus(@Part("token") RequestBody token, @Part("status") RequestBody status);
 
     @Multipart
-    @POST("Appapi/getbalancesharerechargeapi")
+    @POST("MobileAppapi/getbalancesharerechargeapi")
     Call<WalletResponse> getWalletBalance(@Part("retailerid") RequestBody retailerid, @Part("entry") RequestBody entry);
 
     @Multipart
-    @POST("Appapi/getbalancesharerechargeapi")
+    @POST("MobileAppapi/getbalancesharerechargeapi")
     Call<BaseWalletHistoryResponse> getAllWalletHistory(@Part("retailerid") RequestBody retailerid, @Part("entry") RequestBody entry);
 
 
     @Multipart
-    @POST("Appapi/walletsharerechargeapi")
+    @POST("MobileAppapi/walletsharerechargeapi")
     Call<BaseWalletHistoryResponse> saveFailureRecharge(@Part("retailerid") RequestBody retailerid, @Part("type") RequestBody type,
                                                         @Part("amount") RequestBody amount, @Part("remark") RequestBody remark);
 

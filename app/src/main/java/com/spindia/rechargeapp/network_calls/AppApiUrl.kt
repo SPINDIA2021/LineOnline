@@ -26,55 +26,55 @@ object AppApiUrl : AppConstants {
     val NOTE: String = BASE_URL+"/applogin/note"
 
     // url =/appapi/
-    val GET_AEPS_BALANCE: String = "$BASE_URL/appapi/aepsBalance"
+    val GET_AEPS_BALANCE: String = "$BASE_URL/MobileAppapi/aepsBalance"
 
-    val GET_DASHBOARD: String = "$BASE_URL/appapi/dashboard"
-    val GET_BALANCE: String = "$BASE_URL/appapi/walletBalance"
-    val GET_PROFILE: String = "$BASE_URL/appapi/profile"
-    val GET_OPERATORS: String = "$BASE_URL/appapi/getOperators"
-    val GET_ELECTIRCITY_OPERATORS: String = "$BASE_URL/appapi/getOperators"
-    val CHECK_IF_SAME_RECHARGE: String = "$BASE_URL/appapi/checkIfSameRecharge"
-    val VERIFY_PIN: String = "$BASE_URL/appapi/verifyPin"
-    val RECHARGE_HISTORY: String = "$BASE_URL/appapi/shareapi_rechargelist"
+    val GET_DASHBOARD: String = "$BASE_URL/MobileAppapi/dashboard"
+    val GET_BALANCE: String = "$BASE_URL/MobileAppapi/walletBalance"
+    val GET_PROFILE: String = "$BASE_URL/MobileAppapi/profile"
+    val GET_OPERATORS: String = "$BASE_URL/MobileAppapi/getOperators"
+    val GET_ELECTIRCITY_OPERATORS: String = "$BASE_URL/MobileAppapi/getOperators"
+    val CHECK_IF_SAME_RECHARGE: String = "$BASE_URL/MobileAppapi/checkIfSameRecharge"
+    val VERIFY_PIN: String = "$BASE_URL/MobileAppapi/verifyPin"
+    val RECHARGE_HISTORY: String = "$BASE_URL/MobileAppapi/shareapi_rechargelist"
 
-    val CIRCLE: String = "$BASE_URL/appapi/circles"
+    val CIRCLE: String = "$BASE_URL/MobileAppapi/circles"
 
 
     //*********************Do Not Copy*********************************//
-    val CHANGE_PIN: String = BASE_URL + "/appapi/changepin"
-    val FUND_CREDIT: String = BASE_URL + "/appapi/viewcreditwallet"
-    val FUND_DEBIT: String = BASE_URL + "/appapi/viewdebitwallet"
-    val CHECKSAME_FUNDTRANSFER: String = BASE_URL + "/appapi/checkifsamefundtransfer"
-    val LEDGER_REPORT: String = BASE_URL + "/appapi/ledgerfromto"
-    val COMMISION_REPORT_URL: String = BASE_URL + "/appapi/getcommslab"
-    val BROWSE_PLANS = OFFERS_URL + "/appapi/roffer_shareapi"
-    val BROWSE_PLANS_DTH = OFFERS_URL + "/appapi/Dthinfo"
-    val GETBILLDETAILS = OFFERS_URL + "/appapi/ElectricityInfo"
-    val DISSPUTE_HISTORY: String = BASE_URL + "/appapi/disputehistory"
-    val NEWUSER_URL: String = BASE_URL + "/appapi/create_retailer_api"
-    val NEW_DISTRIBUTOR_URL: String = BASE_URL + "/appapi/create_distributor_api"
-    val USER_LIST: String = BASE_URL + "/appapi/user_list"
-    val GET_USER_ID: String = BASE_URL + "/appapi/getcusid"
-    val FUND_TRANSFER: String = BASE_URL + "/appapi/direct_credit"
-    val RAISE_DISPUTE: String = BASE_URL + "/appapi/submitdispute"
-    val FUND_REQUEST_URL: String = BASE_URL + "/appapi/fundreq"
-    val GET_SUPPORT: String = BASE_URL + "/appapi/support"
-    val USER_DAYBOOK: String = BASE_URL + "/appapi/userdaybook"
-    val UPDATE_WALLET: String = BASE_URL + "/appapi/add_wallet_balance"
-    val GET_UPIDETAILS: String = BASE_URL + "/appapi/getupidetails"
-    val LOGOUT_USER: String = BASE_URL + "/appapi/userlogout"
-    val GETPINOTP: String = BASE_URL + "/appapi/getpinotp"
-    val FORGETPIN: String = BASE_URL + "/appapi/forgetpin"
+    val CHANGE_PIN: String = BASE_URL + "/MobileAppapi/changepin"
+    val FUND_CREDIT: String = BASE_URL + "/MobileAppapi/viewcreditwallet"
+    val FUND_DEBIT: String = BASE_URL + "/MobileAppapi/viewdebitwallet"
+    val CHECKSAME_FUNDTRANSFER: String = BASE_URL + "/MobileAppapi/checkifsamefundtransfer"
+    val LEDGER_REPORT: String = BASE_URL + "/MobileAppapi/ledgerfromto"
+    val COMMISION_REPORT_URL: String = BASE_URL + "/MobileAppapi/getcommslab"
+    val BROWSE_PLANS = OFFERS_URL + "/MobileAppapi/roffer_shareapi"
+    val BROWSE_PLANS_DTH = OFFERS_URL + "/MobileAppapi/Dthinfo"
+    val GETBILLDETAILS = OFFERS_URL + "/MobileAppapi/ElectricityInfo"
+    val DISSPUTE_HISTORY: String = BASE_URL + "/MobileAppapi/disputehistory"
+    val NEWUSER_URL: String = BASE_URL + "/MobileAppapi/create_retailer_api"
+    val NEW_DISTRIBUTOR_URL: String = BASE_URL + "/MobileAppapi/create_distributor_api"
+    val USER_LIST: String = BASE_URL + "/MobileAppapi/user_list"
+    val GET_USER_ID: String = BASE_URL + "/MobileAppapi/getcusid"
+    val FUND_TRANSFER: String = BASE_URL + "/MobileAppapi/direct_credit"
+    val RAISE_DISPUTE: String = BASE_URL + "/MobileAppapi/submitdispute"
+    val FUND_REQUEST_URL: String = BASE_URL + "/MobileAppapi/fundreq"
+    val GET_SUPPORT: String = BASE_URL + "/MobileAppapi/support"
+    val USER_DAYBOOK: String = BASE_URL + "/MobileAppapi/userdaybook"
+    val UPDATE_WALLET: String = BASE_URL + "/MobileAppapi/add_wallet_balance"
+    val GET_UPIDETAILS: String = BASE_URL + "/MobileAppapi/getupidetails"
+    val LOGOUT_USER: String = BASE_URL + "/MobileAppapi/userlogout"
+    val GETPINOTP: String = BASE_URL + "/MobileAppapi/getpinotp"
+    val FORGETPIN: String = BASE_URL + "/MobileAppapi/forgetpin"
 
-    val FUND_MYREQUEST: String = BASE_URL + "/appapi/viewmyfundreq"
+    val FUND_MYREQUEST: String = BASE_URL + "/MobileAppapi/viewmyfundreq"
 
-    val USER_SEARCH: String = BASE_URL + "/appapi/user_list_byname_or_mobile"
+    val USER_SEARCH: String = BASE_URL + "/MobileAppapi/user_list_byname_or_mobile"
 
-    val CHANGE_PASWORD: String = BASE_URL + "/appapi/changepassword"
+    val CHANGE_PASWORD: String = BASE_URL + "/MobileAppapi/changepassword"
 
-    val RECHARGE_HISTORY_BY_MOBILE: String = BASE_URL + "appapi/rechargehistorybymobile"
+    val RECHARGE_HISTORY_BY_MOBILE: String = BASE_URL + "MobileAppapi/rechargehistorybymobile"
 
-    val RECHARGE_HISTORY_BY_DATE: String = BASE_URL + "appapi/rechargehistorybydate"
+    val RECHARGE_HISTORY_BY_DATE: String = BASE_URL + "MobileAppapi/rechargehistorybydate"
 
     //DMT APIS
     val DMT_LOGIN: String =
@@ -162,34 +162,34 @@ object AppApiUrl : AppConstants {
     //******************************************************************//
 
     // url =rechargeapi/recharge
-    val RECHARGE: String = "$BASE_URL/Appapi/shareapi_recharge"
+    val RECHARGE: String = "$BASE_URL/MobileAppapi/shareapi_recharge"
 
     val GET_PRODUCTS: String =
-        BASE_URL + "/appapi/getproduct"
+        BASE_URL + "/MobileAppapi/getproduct"
 
     val GET_PRODUCT_AND_SERVICE: String =
-        BASE_URL + "/appapi/getproductandservice"
+        BASE_URL + "/MobileAppapi/getproductandservice"
 
     val GET_SINGLE_PRODUCT_AND_SERVICE: String =
-            BASE_URL + "/appapi/getsingleproductandservice"
+            BASE_URL + "/MobileAppapi/getsingleproductandservice"
 
     val GET_SERVICE_STATUS: String =
-        BASE_URL + "/appapi/getservicestatus"
+        BASE_URL + "/MobileAppapi/getservicestatus"
 
     val GET_SERVICE_AMOUNT: String =
-        BASE_URL + "/appapi/getserviceamount"
+        BASE_URL + "/MobileAppapi/getserviceamount"
 
     val BUY_SERVICE: String =
-        BASE_URL + "/appapi/buyservice"
+        BASE_URL + "/MobileAppapi/buyservice"
 
     val BUY_PRODUCT: String =
-        BASE_URL + "/appapi/buyproduct"
+        BASE_URL + "/MobileAppapi/buyproduct"
 
     val PRODUCT_SERVICES_HISTORY: String =
-        BASE_URL + "/appapi/productserviceshistory"
+        BASE_URL + "/MobileAppapi/productserviceshistory"
 
     val OFFER_POPUP: String =
-        BASE_URL + "/appapi/offerpopup"
+        BASE_URL + "/MobileAppapi/offerpopup"
 
     val CASH_DEPOSIT_WITH_OTP: String =
         BASE_URL + "/aeps/cashdepositwithotp"
@@ -198,7 +198,7 @@ object AppApiUrl : AppConstants {
         BASE_URL + "/aeps/validateCdOtp"
 
     val BUY_PRODUCT_AND_SERVICE: String =
-            BASE_URL + "/appapi/buyproductandservice"
+            BASE_URL + "/MobileAppapi/buyproductandservice"
 
     val KYC_ONBOARDING: String =
         BASE_URL + "aeps/onboarding"

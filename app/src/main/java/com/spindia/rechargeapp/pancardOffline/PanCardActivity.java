@@ -205,7 +205,7 @@ public class PanCardActivity extends AppCompatActivity {
                             selectedmonth = i1 + 1;
                             selectedyear = i2;
 
-                            tvDOB.setText(selectedyear + "/" + selectedmonth + "/" + selecteddate);
+
 
                             sendDate = selectedyear + "/" + selectedmonth + "/" + selecteddate;
 
@@ -226,6 +226,8 @@ public class PanCardActivity extends AppCompatActivity {
                             @SuppressLint("SimpleDateFormat") DateFormat srcDf = new SimpleDateFormat("dd/MM/yyyy");
                             try {
                                 date = srcDf.parse(sendDate);
+                                String dateSet=srcDf.format(date);
+                                tvDOB.setText(dateSet);
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
