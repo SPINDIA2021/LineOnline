@@ -31,6 +31,7 @@ import com.shreyaspatil.EasyUpiPayment.EasyUpiPayment
 import com.shreyaspatil.EasyUpiPayment.listener.PaymentStatusListener
 import com.shreyaspatil.EasyUpiPayment.model.TransactionDetails
 import com.spindia.rechargeapp.R
+import com.spindia.rechargeapp.authentication.response.WalletResponse
 import com.spindia.rechargeapp.model.CircleListModel
 import com.spindia.rechargeapp.model.OfferSModel
 import com.spindia.rechargeapp.model.OperatorsModel
@@ -74,7 +75,7 @@ class MobilePrepaidActivity : AppCompatActivity(), AppApiCalls.OnAPICallComplete
     private val MOBILEOFFERS_API: String = "MOBILEOFFERS_API"
     private val CIRCLE: String = "CIRCLE"
     var bottomSheetDialogOffers: BottomSheetDialog? = null
-    var offersModalArrayList = ArrayList<OfferSModel>()
+    var offersModalArrayList = ArrayList<MobilePlansList>()
     lateinit var offerDetailsAdapter: OfferDetailsAdapter
     lateinit var offerTitleAdapter: MainOfferDetailsAdapter
     var operatorCode: Int = 0
@@ -99,8 +100,8 @@ class MobilePrepaidActivity : AppCompatActivity(), AppApiCalls.OnAPICallComplete
     lateinit var tvHeading: TextView
 
 
-    var offerMap: HashMap<String, ArrayList<OfferSModel>> =
-        HashMap<String, ArrayList<OfferSModel>>()
+    var offerMap: HashMap<String, ArrayList<MobilePlansList>> =
+        HashMap<String, ArrayList<MobilePlansList>>()
 
     var offerArrayList: ArrayList<OfferInnerModelClss> = ArrayList<OfferInnerModelClss>()
 
@@ -146,7 +147,7 @@ class MobilePrepaidActivity : AppCompatActivity(), AppApiCalls.OnAPICallComplete
 
         val adRequest = AdRequest.Builder().build()
 
-        InterstitialAd.load(this, "ca-app-pub-3940256099942544/1033173712", adRequest,
+        InterstitialAd.load(this, "ca-app-pub-7161060381095883/7982531878", adRequest,
             object : InterstitialAdLoadCallback() {
                 override fun onAdLoaded(interstitialAd: InterstitialAd) {
                     // The mInterstitialAd reference will be null until
@@ -286,21 +287,14 @@ class MobilePrepaidActivity : AppCompatActivity(), AppApiCalls.OnAPICallComplete
 
                 etMobileNumberPrepaid.requestFocus()
                 etMobileNumberPrepaid.setError("Invalid Mobile")
-            } else if (tvChooseOperator.text.toString().isEmpty()) {
-                tvChooseOperator.requestFocus()
-                tvChooseOperator.setError("Invalid Operator")
-                Toast.makeText(this, "Invalid Operator", Toast.LENGTH_SHORT).show()
-            } else if(tvCircle.text.toString().isNullOrEmpty()) {
-                tvCircle.requestFocus()
-                tvCircle.setError("Invalid State")
-                Toast.makeText(this, "Invalid Circle", Toast.LENGTH_SHORT).show()
             } else {
 
-                offersApi(
+                callServiceBrowsePlans(etMobileNumberPrepaid.text.toString())
+                /*offersApi(
                     etMobileNumberPrepaid.text.toString(),
                     operator_code,
                     circleId
-                )
+                )*/
 
             }
 
@@ -622,7 +616,7 @@ class MobilePrepaidActivity : AppCompatActivity(), AppApiCalls.OnAPICallComplete
                 progress_bar.visibility = View.INVISIBLE
                 offerArrayList.clear()
 
-                val resultObject = jsonObject.getJSONObject("result")
+           /*     val resultObject = jsonObject.getJSONObject("result")
                 val cast = resultObject.getJSONArray("PlanDescription")
                 for (i in 0 until cast.length()) {
                     val notifyObjJson = cast.getJSONObject(i)
@@ -688,7 +682,7 @@ class MobilePrepaidActivity : AppCompatActivity(), AppApiCalls.OnAPICallComplete
                 }
 
                 Log.e("OPERATOR offerArrayList", offerArrayList.toString())
-                ShowBottomSheetOffers()
+                ShowBottomSheetOffers()*/
 
             } else {
 
@@ -902,9 +896,9 @@ class MobilePrepaidActivity : AppCompatActivity(), AppApiCalls.OnAPICallComplete
         bottomSheetDialogOffers!!.show()*/
     }
 
-    override fun onClickAtOKButton(offerSModel: OfferSModel?) {
+    override fun onClickAtOKButton(offerSModel: MobilePlansList?) {
         if (offerSModel != null) {
-            etAmountPrepaid.setText(offerSModel.recharge_amount)
+            etAmountPrepaid.setText(""+offerSModel.getAmount())
             bottomSheetDialogOffers!!.dismiss()
         }
     }
@@ -1136,5 +1130,122 @@ class MobilePrepaidActivity : AppCompatActivity(), AppApiCalls.OnAPICallComplete
         })
     }
 
+
+    private fun callServiceBrowsePlans(mobileNo: String) {
+        progress_bar.visibility = View.VISIBLE
+        System.setProperty("http.keepAlive", "false")
+        val httpClient = OkHttpClient.Builder()
+        httpClient.readTimeout(5, TimeUnit.MINUTES).connectTimeout(5, TimeUnit.MINUTES)
+            .writeTimeout(5, TimeUnit.MINUTES).retryOnConnectionFailure(true)
+            .addInterceptor { chain ->
+                val original = chain.request()
+                val builder = original.newBuilder()
+
+                //Request request = chain.request().newBuilder().addHeader("parameter", "value").build();
+                builder.header("Content-Type", "application/x-www-form-urlencoded")
+                val request = builder.method(original.method(), original.body())
+                    .build()
+                chain.proceed(request)
+            }
+        val gson = GsonBuilder()
+            .setLenient()
+            .create()
+        val client = httpClient.build()
+        val retrofit = Retrofit.Builder()
+            .baseUrl(MainIAPI.BASE_URL_BROWSEPLANS)
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build()
+
+
+        //creating the retrofit api service
+        val apiService = retrofit.create(MainIAPI::class.java)
+
+
+
+        //Call<ScannerResponse> call = apiService.saveScan(orderId1,vpa1,name1,amount1,mon_no1,member_id1,password1);
+        val call = apiService.callBrowsePlanService( mobileNo)
+
+
+        //making the call to generate checksum
+        call.enqueue(object : Callback<MainMobilePlans> {
+            override fun onResponse(
+                call: Call<MainMobilePlans>,
+                response: Response<MainMobilePlans>
+            ) {
+                progress_bar.visibility = View.GONE
+                if (response.body()!!.getSuccess() == true) {
+
+                    offersModalArrayList= response.body()!!.getSubMobilePlansResponse()!!.getMobilePlansList() as ArrayList<MobilePlansList>
+
+                    try {
+                        val map: HashMap<String, ArrayList<MobilePlansList>> =
+                            HashMap<String, ArrayList<MobilePlansList>>()
+                        for (i in offersModalArrayList.indices) {
+
+                            if (offersModalArrayList.get(i)
+                                    .getPlanTab() != null && !offersModalArrayList.get(i).getPlanTab().equals("")
+
+                            ) {
+                                if (map.containsKey(
+                                        offersModalArrayList.get(i).getPlanTab()
+                                    )
+                                ) {
+                                    val l2: ArrayList<MobilePlansList> =
+                                        map[offersModalArrayList.get(i).getPlanTab()]!!
+                                    l2.add(offersModalArrayList.get(i))
+                                    map[offersModalArrayList.get(i).getPlanTab()!!] = l2
+                                    offerMap = map
+                                } else {
+                                    val l2: ArrayList<MobilePlansList> =
+                                        ArrayList<MobilePlansList>()
+                                    l2.add(offersModalArrayList.get(i))
+                                    map[offersModalArrayList.get(i).getPlanTab()!!] = l2
+                                    offerMap = map
+                                }
+
+                            }
+                        }
+                    } catch (e: java.lang.Exception) {
+                    }
+
+                    Log.e("OPERATOR MAP", offerMap.toString())
+
+                    for (i in 0 until offerMap.size) {
+
+                        val innerModelClass = OfferInnerModelClss()
+                        val key: String = getKey1(i)!!
+                        val mainList: ArrayList<MobilePlansList> = offerMap.get(key)!!
+
+                        innerModelClass.data=key
+                        innerModelClass.isOpen=false
+                        innerModelClass.nestedDetailResponse=mainList
+                        offerArrayList.add(innerModelClass)
+
+                    }
+
+                    Log.e("OPERATOR offerArrayList", offerArrayList.toString())
+                    ShowBottomSheetOffers()
+                } else {
+                    Toast.makeText(
+                        this@MobilePrepaidActivity,
+                        "Something Went Wrong",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                }
+
+
+                //once we get the checksum we will initiailize the payment.
+                //the method is taking the checksum we got and the paytm object as the parameter
+            }
+
+            override fun onFailure(call: Call<MainMobilePlans>, t: Throwable) {
+                progress_bar.visibility = View.GONE
+                // callServiceFalse(mobileNo);
+                Toast.makeText(this@MobilePrepaidActivity, t.message, Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
 
 }

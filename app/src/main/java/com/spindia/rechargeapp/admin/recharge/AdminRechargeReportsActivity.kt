@@ -96,7 +96,7 @@ class AdminRechargeReportsActivity : AppCompatActivity(),
 
         val adRequest = AdRequest.Builder().build()
 
-        InterstitialAd.load(this, "ca-app-pub-3940256099942544/1033173712", adRequest,
+        InterstitialAd.load(this, "ca-app-pub-7161060381095883/7982531878", adRequest,
             object : InterstitialAdLoadCallback() {
                 override fun onAdLoaded(interstitialAd: InterstitialAd) {
                     // The mInterstitialAd reference will be null until

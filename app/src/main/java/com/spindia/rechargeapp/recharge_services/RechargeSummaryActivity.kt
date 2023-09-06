@@ -19,6 +19,7 @@ import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.onesignal.OneSignal
 import com.paytm.pgsdk.PaytmOrder
 import com.paytm.pgsdk.PaytmPGService
 import com.paytm.pgsdk.PaytmPaymentTransactionCallback
@@ -84,6 +85,9 @@ class RechargeSummaryActivity : AppCompatActivity(), AppApiCalls.OnAPICallComple
     var mInterstitialAd: InterstitialAd? = null
     var pd: ProgressDialog? = null
 
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recharge_summary)
@@ -94,6 +98,10 @@ class RechargeSummaryActivity : AppCompatActivity(), AppApiCalls.OnAPICallComple
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         }
+
+   //     OneSignal.initWithContext(this,"4543edd8-e654-4c7b-ac9b-de0eba4c1bf6");
+
+
 
         custToolbar=findViewById(R.id.custToolbar)
         text_netpay_main=findViewById(R.id.text_netpay_main)
@@ -116,7 +124,7 @@ class RechargeSummaryActivity : AppCompatActivity(), AppApiCalls.OnAPICallComple
 
         val adRequest = AdRequest.Builder().build()
 
-        InterstitialAd.load(this, "ca-app-pub-3940256099942544/1033173712", adRequest,
+        InterstitialAd.load(this, "ca-app-pub-7161060381095883/7982531878", adRequest,
             object : InterstitialAdLoadCallback() {
                 override fun onAdLoaded(interstitialAd: InterstitialAd) {
                     // The mInterstitialAd reference will be null until

@@ -33,4 +33,15 @@
         android:layout_width="@dimen/_130sdp"
         android:layout_height="@dimen/_130sdp"
         android:layout_centerInParent="true"/>-->
+
+    <com.spindia.rechargeapp.utils.CustomTextviewHeading
+        android:id="@+id/text_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:text="@string/app_name"
+        android:textColor="@color/newcolor1"
+        android:textSize="12sp" />
 </RelativeLayout>

@@ -8,8 +8,8 @@ class OfferInnerModelClss : Serializable{
         var data: String? = null
 
         var isOpen = false
-        var nestedDetailResponse: ArrayList<OfferSModel> =
-            ArrayList<OfferSModel>()
+        var nestedDetailResponse: ArrayList<MobilePlansList> =
+            ArrayList<MobilePlansList>()
 
 
 }

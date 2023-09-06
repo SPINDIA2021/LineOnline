@@ -41,6 +41,12 @@ public class OfflinePancardActivity extends AppCompatActivity  {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+       // onBackPressed();
+    }
+
     private void initView() {
         imgBack = findViewById(R.id.ivBackBtn);
         webView=findViewById(R.id.webview_pancard);

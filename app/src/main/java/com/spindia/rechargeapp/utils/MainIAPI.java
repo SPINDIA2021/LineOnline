@@ -10,6 +10,7 @@ import com.spindia.rechargeapp.authentication.response.LoginMainResponse;
 import com.spindia.rechargeapp.authentication.response.BaseCheckMobileResponse;
 import com.spindia.rechargeapp.authentication.response.FalseCheckMobileResponse;
 import com.spindia.rechargeapp.authentication.response.WalletResponse;
+import com.spindia.rechargeapp.model.OfferSModel;
 import com.spindia.rechargeapp.pancardOffline.BaseHeadingResponse;
 import com.spindia.rechargeapp.pancardOffline.BasePanResponse;
 import com.spindia.rechargeapp.pancardlist.BasePanCardlistResponse;
@@ -17,6 +18,7 @@ import com.spindia.rechargeapp.pancardlist.BaseUpdatePaymentStatusResponse;
 import com.spindia.rechargeapp.pvc.BasePVCListResponse;
 import com.spindia.rechargeapp.pvc.BasePVCResponse;
 import com.spindia.rechargeapp.pvc.BaseUpdatePVCResponse;
+import com.spindia.rechargeapp.recharge_services.MainMobilePlans;
 import com.spindia.rechargeapp.walletHistory.BaseWalletHistoryResponse;
 
 import okhttp3.MultipartBody;
@@ -34,6 +36,7 @@ public interface MainIAPI {
     // String BASE_URL="https://api.mewarpe.com/";
     String BASE_URL = "https://spindiabazaar.com/";
     String BASE_URL1 = "http://spindiapan.com/";
+    String BASE_URL_BROWSEPLANS = "http://206.72.202.90:8050/";
 
 
     @Multipart
@@ -157,5 +160,8 @@ public interface MainIAPI {
     @GET("api/headlines")
     Call<BasePVCResponse> callSaveHeadingService(@Query("for") String for1, @Query("method") String method
                                                       , @Query("content") String content);
+
+    @GET("get_phn_packages")
+    Call<MainMobilePlans> callBrowsePlanService(@Query("phn") String phn);
 
 }

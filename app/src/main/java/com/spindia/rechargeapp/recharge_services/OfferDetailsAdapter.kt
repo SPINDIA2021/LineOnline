@@ -15,20 +15,20 @@ import java.util.*
 
 class OfferDetailsAdapter(
     context: Context?,
-    offerSModelArrayList: ArrayList<OfferSModel>,
+    offerSModelArrayList: ArrayList<MobilePlansList>,
      mobilePrepaidActivity: MobilePrepaidActivity
 
 
 ) :
     RecyclerView.Adapter<OfferDetailsAdapter.ViewHolder>() {
-    private val offerSModelArrayList: List<OfferSModel>
+    private val offerSModelArrayList: List<MobilePlansList>
     private val mInflater: LayoutInflater
     private val mobilePrepaidActivity: MobilePrepaidActivity
     var mContext: Context? = null
 
     interface ListAdapterListener {
         // create an interface
-        fun onClickAtOKButton(offerSModel: OfferSModel?) // create callback function
+        fun onClickAtOKButton(offerSModel: MobilePlansList?) // create callback function
     }
 
     override fun onCreateViewHolder(
@@ -46,10 +46,10 @@ class OfferDetailsAdapter(
         holder: ViewHolder,
         position: Int
     ) {
-        val offerSModel: OfferSModel = offerSModelArrayList[position]
-        holder.tvOfferDescription.setText(offerSModel.recharge_long_desc!!.trim())
+        val offerSModel: MobilePlansList = offerSModelArrayList[position]
+        holder.tvOfferDescription.setText(offerSModel.getPlanDescription()!!.trim())
         holder.btnAmount.text =
-            mContext!!.resources.getString(R.string.Rupee) + offerSModel.recharge_amount!!.trim()
+            mContext!!.resources.getString(R.string.Rupee) + offerSModel.getAmount()!!
         holder.btnAmount.setOnClickListener {
             mobilePrepaidActivity.onClickAtOKButton(offerSModel)
 
