@@ -15,6 +15,8 @@ import com.spindia.rechargeapp.pancardOffline.BaseHeadingResponse;
 import com.spindia.rechargeapp.pancardOffline.BasePanResponse;
 import com.spindia.rechargeapp.pancardlist.BasePanCardlistResponse;
 import com.spindia.rechargeapp.pancardlist.BaseUpdatePaymentStatusResponse;
+import com.spindia.rechargeapp.pancardlist.MainCaptchaResponse;
+import com.spindia.rechargeapp.pancardlist.SaveCaptchaResponse;
 import com.spindia.rechargeapp.pvc.BasePVCListResponse;
 import com.spindia.rechargeapp.pvc.BasePVCResponse;
 import com.spindia.rechargeapp.pvc.BaseUpdatePVCResponse;
@@ -163,5 +165,16 @@ public interface MainIAPI {
 
     @GET("get_phn_packages")
     Call<MainMobilePlans> callBrowsePlanService(@Query("phn") String phn);
+
+    @GET("api/capchaforpanpdfno")
+    Call<MainCaptchaResponse> callgetCaptchaService(@Query("rtid") String rtid);
+
+
+    @Multipart
+    @POST("api/panpdfno")
+    Call<SaveCaptchaResponse> saveCaptcha(@Part("token") RequestBody token, @Part("month") RequestBody month,
+                                          @Part("year") RequestBody year, @Part("capcha") RequestBody capcha,
+                                          @Part("ackno") RequestBody ackno, @Part("forpan") RequestBody forpan,
+                                          @Part("rtid") RequestBody rtid);
 
 }

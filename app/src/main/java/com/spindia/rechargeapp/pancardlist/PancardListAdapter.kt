@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -24,7 +25,8 @@ class PancardListAdapter(
     retryClick:View.OnClickListener,
     editClick:View.OnClickListener,
     statusClick:View.OnClickListener,
-    pdfClick:View.OnClickListener
+    pdfClick:View.OnClickListener,
+    panInfoClick: View.OnClickListener
 ) :
     RecyclerView.Adapter<PancardListAdapter.ViewHolder>() {
     private var pancardModalList: List<PanCardlistResponse>
@@ -34,6 +36,7 @@ class PancardListAdapter(
     private var editClick: View.OnClickListener
     private var statusClick: View.OnClickListener
     private var pdfClick: View.OnClickListener
+    private var panInfoClick: View.OnClickListener
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -80,6 +83,7 @@ class PancardListAdapter(
             holder.text_remark.visibility=View.VISIBLE
             holder.tvEditBtn.visibility=View.GONE
             holder.tvStatusBtn.visibility=View.GONE
+            holder.btnpanInfo.visibility=View.GONE
 
         } else if (pancardModal.status.toString().equals("Success")) {
             holder.text_ApproveStatus.text = "SUCCESS"
@@ -88,6 +92,7 @@ class PancardListAdapter(
             holder.text_remark.visibility=View.VISIBLE
             holder.tvEditBtn.visibility=View.GONE
             holder.tvStatusBtn.visibility=View.VISIBLE
+            holder.btnpanInfo.visibility=View.VISIBLE
 
 
         } else if (pancardModal.status.toString().equals("pending")) {
@@ -96,6 +101,7 @@ class PancardListAdapter(
             holder.text_remark.visibility=View.GONE
             holder.tvEditBtn.visibility=View.GONE
             holder.tvStatusBtn.visibility=View.GONE
+            holder.btnpanInfo.visibility=View.GONE
 
         }else if (pancardModal.status.toString().equals("Hold")) {
             holder.text_ApproveStatus.text = "HOLD"
@@ -105,6 +111,7 @@ class PancardListAdapter(
           //  holder.text_remark.visibility=View.GONE
             holder.tvEditBtn.visibility=View.VISIBLE
             holder.tvStatusBtn.visibility=View.GONE
+            holder.btnpanInfo.visibility=View.GONE
 
         }
 
@@ -127,6 +134,9 @@ class PancardListAdapter(
 
         holder.ivPdf.setTag(position)
         holder.ivPdf.setOnClickListener(pdfClick)
+
+        holder.btnpanInfo.setTag(position)
+        holder.btnpanInfo.setOnClickListener(panInfoClick)
 
         /* if (rechargeHistoryModal.){
 
@@ -154,6 +164,7 @@ class PancardListAdapter(
         var tvEditBtn:TextView
         var tvStatusBtn:TextView
         var ivPdf:ImageView
+        var btnpanInfo: Button
 
         init {
             tvToken=itemView.findViewById(R.id.tvToken)
@@ -169,6 +180,7 @@ class PancardListAdapter(
             tvEditBtn=itemView.findViewById(R.id.tvEditBtn)
             tvStatusBtn=itemView.findViewById(R.id.tvStatusBtn)
             ivPdf=itemView.findViewById(R.id.ivPdf)
+            btnpanInfo=itemView.findViewById(R.id.btnpanInfo);
 
         }
     }
@@ -183,5 +195,6 @@ class PancardListAdapter(
         this.editClick=editClick
         this.statusClick=statusClick
         this.pdfClick=pdfClick
+        this.panInfoClick=panInfoClick
     }
 }

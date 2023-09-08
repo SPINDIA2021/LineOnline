@@ -138,6 +138,7 @@
         <entry key="app/src/main/res/layout/bottom_dailog_paymethod.xml" value="0.246875" />
         <entry key="app/src/main/res/layout/bottomdailog_paymethod.xml" value="0.19" />
         <entry key="app/src/main/res/layout/bottomdialog_device.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/dailog_captcha.xml" value="0.33541666666666664" />
         <entry key="app/src/main/res/layout/dailog_webview.xml" value="0.246875" />
         <entry key="app/src/main/res/layout/data_list_layout.xml" value="0.246875" />
         <entry key="app/src/main/res/layout/forget_password_dialog.xml" value="0.24583333333333332" />

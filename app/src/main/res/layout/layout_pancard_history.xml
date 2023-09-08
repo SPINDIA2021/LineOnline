@@ -242,6 +242,24 @@
                 android:src="@drawable/pdfdnld" />
 
 
+            <Button
+                android:visibility="gone"
+                android:id="@+id/btnpanInfo"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/text_name"
+                android:background="@drawable/bg_buttons"
+                android:text="PAN INFO"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="@dimen/_6sdp"
+                android:padding="@dimen/_3sdp"
+                android:textColor="#ffffff"
+                android:textSize="11sp" />
+
+
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>

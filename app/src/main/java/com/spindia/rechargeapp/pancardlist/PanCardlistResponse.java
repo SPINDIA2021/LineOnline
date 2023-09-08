@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class PanCardlistResponse {
+
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -67,18 +68,27 @@ public class PanCardlistResponse {
     @SerializedName("remark")
     @Expose
     private String remark;
+    @SerializedName("aadharapiresponse")
+    @Expose
+    private Object aadharapiresponse;
     @SerializedName("addressdetail")
     @Expose
-    private String addressdetail;
+    private Object addressdetail;
     @SerializedName("document")
     @Expose
-    private String document;
+    private Object document;
     @SerializedName("receiptuploaddate")
     @Expose
     private String receiptuploaddate;
     @SerializedName("aadharback")
     @Expose
     private String aadharback;
+    @SerializedName("mergecreated")
+    @Expose
+    private String mergecreated;
+    @SerializedName("domain")
+    @Expose
+    private String domain;
 
     public Integer getId() {
         return id;
@@ -248,19 +258,27 @@ public class PanCardlistResponse {
         this.remark = remark;
     }
 
-    public String getAddressdetail() {
+    public Object getAadharapiresponse() {
+        return aadharapiresponse;
+    }
+
+    public void setAadharapiresponse(Object aadharapiresponse) {
+        this.aadharapiresponse = aadharapiresponse;
+    }
+
+    public Object getAddressdetail() {
         return addressdetail;
     }
 
-    public void setAddressdetail(String addressdetail) {
+    public void setAddressdetail(Object addressdetail) {
         this.addressdetail = addressdetail;
     }
 
-    public String getDocument() {
+    public Object getDocument() {
         return document;
     }
 
-    public void setDocument(String document) {
+    public void setDocument(Object document) {
         this.document = document;
     }
 
@@ -278,6 +296,22 @@ public class PanCardlistResponse {
 
     public void setAadharback(String aadharback) {
         this.aadharback = aadharback;
+    }
+
+    public String getMergecreated() {
+        return mergecreated;
+    }
+
+    public void setMergecreated(String mergecreated) {
+        this.mergecreated = mergecreated;
+    }
+
+    public String getDomain() {
+        return domain;
+    }
+
+    public void setDomain(String domain) {
+        this.domain = domain;
     }
 
 }

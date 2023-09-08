@@ -13,13 +13,12 @@ import android.view.WindowManager
 import android.webkit.ValueCallback
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.ImageView
-import android.widget.RelativeLayout
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.bumptech.glide.Glide
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
@@ -220,7 +219,7 @@ class PancardReportsActivity : AppCompatActivity(),
 
                         layoutManager = LinearLayoutManager(this@PancardReportsActivity)
                         pancardAdapter = PancardListAdapter(
-                            context, pancardListModalArrayList, retryClick,editClick, statusClick,pdfClick
+                            context, pancardListModalArrayList, retryClick,editClick, statusClick,pdfClick,panInfoClick
                         )
                         rvPancardHistory.adapter = pancardAdapter
                     }
@@ -342,6 +341,219 @@ class PancardReportsActivity : AppCompatActivity(),
 
         val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(document.toString()))
         startActivity(browserIntent)
+
+    }
+
+
+
+    var panInfoClick = View.OnClickListener { v ->
+        val i = v.tag as Int
+
+        var dobArray=pancardListModalArrayList[i].dob.split("/")
+        var month=dobArray[1]
+        var year=dobArray[2]
+
+        callServiceGetCaptcha(month,year,pancardListModalArrayList[i].ackno);
+
+    }
+
+    private fun callServiceGetCaptcha(month: String, year: String, ackno: String) {
+        progress_bar.visibility = View.VISIBLE
+        System.setProperty("http.keepAlive", "false")
+        val httpClient = OkHttpClient.Builder()
+        httpClient.readTimeout(5, TimeUnit.MINUTES).connectTimeout(5, TimeUnit.MINUTES)
+            .writeTimeout(5, TimeUnit.MINUTES).retryOnConnectionFailure(true)
+            .addInterceptor { chain ->
+                val original = chain.request()
+                val builder = original.newBuilder()
+
+                //Request request = chain.request().newBuilder().addHeader("parameter", "value").build();
+                builder.header("Content-Type", "application/x-www-form-urlencoded")
+                val request = builder.method(original.method(), original.body())
+                    .build()
+                chain.proceed(request)
+            }
+        val gson = GsonBuilder()
+            .setLenient()
+            .create()
+        val client = httpClient.build()
+        val retrofit = Retrofit.Builder()
+            .baseUrl(MainIAPI.BASE_URL1)
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build()
+
+
+        //creating the retrofit api service
+        val apiService = retrofit.create(MainIAPI::class.java)
+
+
+
+        //Call<ScannerResponse> call = apiService.saveScan(orderId1,vpa1,name1,amount1,mon_no1,member_id1,password1);
+        val call = apiService.callgetCaptchaService(Preferences.getString(AppConstants.MOBILE) )
+
+
+        //making the call to generate checksum
+        call.enqueue(object : Callback<MainCaptchaResponse> {
+            override fun onResponse(
+                call: Call<MainCaptchaResponse>,
+                response: Response<MainCaptchaResponse>
+            ) {
+                progress_bar.visibility = View.GONE
+                if (response.body()!!.status == true) {
+
+                   var captchaImg=response.body()!!.data.img
+                    var token=response.body()!!.data.token
+
+                    showCaptchaDailog(captchaImg, token,month,year,ackno)
+
+                } else {
+                    Toast.makeText(
+                        this@PancardReportsActivity,
+                        response.body()!!.msg,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    callServiceGetPancard()
+                }
+
+
+                //once we get the checksum we will initiailize the payment.
+                //the method is taking the checksum we got and the paytm object as the parameter
+            }
+
+            override fun onFailure(call: Call<MainCaptchaResponse>, t: Throwable) {
+                progress_bar.visibility = View.GONE
+                // callServiceFalse(mobileNo);
+                Toast.makeText(this@PancardReportsActivity, t.message, Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    lateinit var dialogCaptcha: Dialog
+    lateinit var imgCaptcha:ImageView
+    lateinit var editCaptcha:EditText
+    lateinit var btnsubmit:Button
+    private fun showCaptchaDailog(
+        captchaImg: String?,
+        token: String,
+        month: String,
+        year: String,
+        ackno: String
+    ) {
+
+        dialogCaptcha= Dialog(this@PancardReportsActivity)
+        dialogCaptcha.setContentView(R.layout.dailog_captcha)
+
+        imgClose=dialogCaptcha.findViewById(R.id.img_close)
+        imgCaptcha=dialogCaptcha.findViewById(R.id.img_captcha)
+        editCaptcha=dialogCaptcha.findViewById(R.id.edit_captcha)
+        btnsubmit=dialogCaptcha.findViewById(R.id.btnsubmit)
+
+
+        Glide.with(this)
+            .load(captchaImg)
+            .into(imgCaptcha)
+
+
+
+        btnsubmit.setOnClickListener {
+            if (editCaptcha.text.toString().isEmpty())
+            {
+                Toast.makeText(this@PancardReportsActivity,"Please enter captcha",Toast.LENGTH_LONG).show()
+            }else{
+                callServiceSaveCaptcha(editCaptcha.text.toString(),token,month,year,ackno)
+            }
+        }
+
+
+        imgClose.setOnClickListener {
+            dialogCaptcha.dismiss()
+        }
+
+        dialogCaptcha.show()
+
+    }
+
+    private fun callServiceSaveCaptcha(edCaptcha: String, token: String, month: String, year: String, ackno: String) {
+
+
+            progress_bar.visibility = View.VISIBLE
+            System.setProperty("http.keepAlive", "false")
+            val httpClient = OkHttpClient.Builder()
+            httpClient.readTimeout(5, TimeUnit.MINUTES).connectTimeout(5, TimeUnit.MINUTES)
+                .writeTimeout(5, TimeUnit.MINUTES).retryOnConnectionFailure(true)
+                .addInterceptor { chain ->
+                    val original = chain.request()
+                    val builder = original.newBuilder()
+
+                    //Request request = chain.request().newBuilder().addHeader("parameter", "value").build();
+                    builder.header("Content-Type", "application/x-www-form-urlencoded")
+                    val request = builder.method(original.method(), original.body())
+                        .build()
+                    chain.proceed(request)
+                }
+            val gson = GsonBuilder()
+                .setLenient()
+                .create()
+            val client = httpClient.build()
+            val retrofit = Retrofit.Builder()
+                .baseUrl(MainIAPI.BASE_URL1)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build()
+
+
+            //creating the retrofit api service
+            val apiService = retrofit.create(MainIAPI::class.java)
+
+            val token1: RequestBody = createPartFromString(token)
+            val month1: RequestBody = createPartFromString(month)
+            val year1: RequestBody = createPartFromString(year)
+            val capcha1: RequestBody = createPartFromString(edCaptcha)
+            val ackno1: RequestBody = createPartFromString(ackno)
+            val forpan1: RequestBody = createPartFromString("no")
+            val rtid1: RequestBody = createPartFromString(Preferences.getString(AppConstants.MOBILE))
+
+            //Call<ScannerResponse> call = apiService.saveScan(orderId1,vpa1,name1,amount1,mon_no1,member_id1,password1);
+            val call = apiService.saveCaptcha(token1,month1,year1 ,capcha1,ackno1,forpan1,rtid1)
+
+
+            //making the call to generate checksum
+            call.enqueue(object : Callback<SaveCaptchaResponse> {
+                override fun onResponse(
+                    call: Call<SaveCaptchaResponse>,
+                    response: Response<SaveCaptchaResponse>
+                ) {
+                    progress_bar.visibility = View.GONE
+                    if (response.body()!!.status == true) {
+                        Toast.makeText(
+                            this@PancardReportsActivity,
+                            response.body()!!.msg,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        callServiceGetPancard()
+                    } else {
+                        Toast.makeText(
+                            this@PancardReportsActivity,
+                            response.body()!!.msg,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        callServiceGetPancard()
+                    }
+
+
+                    //once we get the checksum we will initiailize the payment.
+                    //the method is taking the checksum we got and the paytm object as the parameter
+                }
+
+                override fun onFailure(call: Call<SaveCaptchaResponse>, t: Throwable) {
+                    progress_bar.visibility = View.GONE
+                    // callServiceFalse(mobileNo);
+                    Toast.makeText(this@PancardReportsActivity, t.message, Toast.LENGTH_SHORT).show()
+                }
+            })
+
+
 
     }
 
