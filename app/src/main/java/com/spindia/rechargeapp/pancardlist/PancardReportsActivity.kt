@@ -14,6 +14,7 @@ import android.webkit.ValueCallback
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -353,7 +354,7 @@ class PancardReportsActivity : AppCompatActivity(),
         var month=dobArray[1]
         var year=dobArray[2]
 
-        callServiceGetCaptcha(month,year,pancardListModalArrayList[i].ackno);
+        callServiceGetCaptcha(month,year,pancardListModalArrayList[i].receiptno);
 
     }
 
@@ -460,9 +461,12 @@ class PancardReportsActivity : AppCompatActivity(),
             if (editCaptcha.text.toString().isEmpty())
             {
                 Toast.makeText(this@PancardReportsActivity,"Please enter captcha",Toast.LENGTH_LONG).show()
+
             }else{
                 callServiceSaveCaptcha(editCaptcha.text.toString(),token,month,year,ackno)
+                dialogCaptcha.dismiss()
             }
+
         }
 
 
@@ -526,19 +530,21 @@ class PancardReportsActivity : AppCompatActivity(),
                 ) {
                     progress_bar.visibility = View.GONE
                     if (response.body()!!.status == true) {
-                        Toast.makeText(
+
+                        showMessageDialog("Pancard Response", response.body()!!.msg)
+                      /*  Toast.makeText(
                             this@PancardReportsActivity,
                             response.body()!!.msg,
                             Toast.LENGTH_SHORT
-                        ).show()
-                        callServiceGetPancard()
+                        ).show()*/
+                      //  callServiceGetPancard()
                     } else {
                         Toast.makeText(
                             this@PancardReportsActivity,
                             response.body()!!.msg,
                             Toast.LENGTH_SHORT
                         ).show()
-                        callServiceGetPancard()
+                       // callServiceGetPancard()
                     }
 
 
@@ -1048,5 +1054,27 @@ class PancardReportsActivity : AppCompatActivity(),
     }
 
 
+    private fun showMessageDialog(title: String, message: String) {
+        val builder1 =
+            AlertDialog.Builder(this)
+        builder1.setTitle("" + title)
+        builder1.setMessage("" + message)
+        builder1.setCancelable(false)
+        builder1.setPositiveButton(
+            "OK"
+        ) { dialog, id ->
 
+            dialog.dismiss()
+        }
+        /*
+        builder1.setNegativeButton(
+                "No",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });*/
+        val alert11 = builder1.create()
+        alert11.show()
+    }
 }

@@ -12,7 +12,8 @@ import com.spindia.rechargeapp.network.Preferences
 
 
 class VolleySingleton : Application() {
-     val ONESIGNAL_APP_ID = "b1d1d09a-0b72-4340-b8ad-d286fc7c92d0"
+   //  val ONESIGNAL_APP_ID = "b1d1d09a-0b72-4340-b8ad-d286fc7c92d0"
+   val ONESIGNAL_APP_ID = "785912ce-316b-4849-94ce-3694c5596677"
 
 /*    ZmJkZTFiMTEtZjk4OC00MGU1LThjMjQtOTFjNDRmYjJiNGYw
     Rest API Key*/

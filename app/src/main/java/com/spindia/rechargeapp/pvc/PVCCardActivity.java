@@ -1329,51 +1329,51 @@ public class PVCCardActivity extends AppCompatActivity {
 
         MultipartBody.Part[] pdf3Parts = new MultipartBody.Part[pdf3Files.size()];
         for (int index = 0; index < pdf3Files.size(); index++) {
-            RequestBody reqFile = RequestBody.create(MediaType.parse(""), pdf3Files.get(index));
+            RequestBody reqFile = RequestBody.create(MediaType.parse("application/pdf"), pdf3Files.get(index));
             pdf3Parts[index] = MultipartBody.Part.createFormData("pdf3", pdf3Files.get(index).getName(), reqFile);
         }
 
         MultipartBody.Part[] pdf4Parts = new MultipartBody.Part[pdf4Files.size()];
         for (int index = 0; index < pdf4Files.size(); index++) {
-            RequestBody reqFile = RequestBody.create(MediaType.parse(""), pdf4Files.get(index));
+            RequestBody reqFile = RequestBody.create(MediaType.parse("application/pdf"), pdf4Files.get(index));
             pdf4Parts[index] = MultipartBody.Part.createFormData("pdf4", pdf4Files.get(index).getName(), reqFile);
         }
 
         MultipartBody.Part[] pdf5Parts = new MultipartBody.Part[pdf5Files.size()];
         for (int index = 0; index < pdf5Files.size(); index++) {
-            RequestBody reqFile = RequestBody.create(MediaType.parse(""), pdf5Files.get(index));
+            RequestBody reqFile = RequestBody.create(MediaType.parse("application/pdf"), pdf5Files.get(index));
             pdf5Parts[index] = MultipartBody.Part.createFormData("pdf5", pdf5Files.get(index).getName(), reqFile);
         }
 
 
         MultipartBody.Part[] pdf6Parts = new MultipartBody.Part[pdf6Files.size()];
         for (int index = 0; index < pdf6Files.size(); index++) {
-            RequestBody reqFile = RequestBody.create(MediaType.parse(""), pdf6Files.get(index));
+            RequestBody reqFile = RequestBody.create(MediaType.parse("application/pdf"), pdf6Files.get(index));
             pdf6Parts[index] = MultipartBody.Part.createFormData("pdf6", pdf6Files.get(index).getName(), reqFile);
         }
 
 
         MultipartBody.Part[] pdf7Parts = new MultipartBody.Part[pdf7Files.size()];
         for (int index = 0; index < pdf7Files.size(); index++) {
-            RequestBody reqFile = RequestBody.create(MediaType.parse(""), pdf7Files.get(index));
+            RequestBody reqFile = RequestBody.create(MediaType.parse("application/pdf"), pdf7Files.get(index));
             pdf7Parts[index] = MultipartBody.Part.createFormData("pdf7", pdf7Files.get(index).getName(), reqFile);
         }
 
         MultipartBody.Part[] pdf8Parts = new MultipartBody.Part[pdf8Files.size()];
         for (int index = 0; index < pdf8Files.size(); index++) {
-            RequestBody reqFile = RequestBody.create(MediaType.parse(""), pdf8Files.get(index));
+            RequestBody reqFile = RequestBody.create(MediaType.parse("application/pdf"), pdf8Files.get(index));
             pdf8Parts[index] = MultipartBody.Part.createFormData("pdf8", pdf8Files.get(index).getName(), reqFile);
         }
 
         MultipartBody.Part[] pdf9Parts = new MultipartBody.Part[pdf9Files.size()];
         for (int index = 0; index < pdf9Files.size(); index++) {
-            RequestBody reqFile = RequestBody.create(MediaType.parse(""), pdf9Files.get(index));
+            RequestBody reqFile = RequestBody.create(MediaType.parse("application/pdf"), pdf9Files.get(index));
             pdf9Parts[index] = MultipartBody.Part.createFormData("pdf9", pdf9Files.get(index).getName(), reqFile);
         }
 
         MultipartBody.Part[] pdf10Parts = new MultipartBody.Part[pdf10Files.size()];
         for (int index = 0; index < pdf10Files.size(); index++) {
-            RequestBody reqFile = RequestBody.create(MediaType.parse(""), pdf10Files.get(index));
+            RequestBody reqFile = RequestBody.create(MediaType.parse("application/pdf"), pdf10Files.get(index));
             pdf10Parts[index] = MultipartBody.Part.createFormData("pdf10", pdf10Files.get(index).getName(), reqFile);
         }
 
