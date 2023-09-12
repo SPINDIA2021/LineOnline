@@ -33,6 +33,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.spindia.rechargeapp.authentication.LoginActivity
 import com.spindia.rechargeapp.authentication.response.WalletResponse
+import com.spindia.rechargeapp.dth.DthRechargeActivity
 import com.spindia.rechargeapp.electricity.ElectricityRechargeActivity
 import com.spindia.rechargeapp.model.BannerModel
 import com.spindia.rechargeapp.network.Preferences
@@ -118,6 +119,7 @@ class NewMainActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteListen
     lateinit var rl_pvclist:LinearLayout
     lateinit var rl_addamount:RelativeLayout
     lateinit var rl_electricityNew:LinearLayout
+    lateinit var rl_dthNew:LinearLayout
 
     lateinit var ivLogoutBtn:ImageView
 
@@ -182,6 +184,7 @@ class NewMainActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteListen
         refreshLayout=findViewById(R.id.refreshLayout)
         mAdView = findViewById(R.id.adView)
         rl_electricityNew=findViewById(R.id.rl_electricityNew)
+        rl_dthNew=findViewById(R.id.rl_dthNew)
 
         MobileAds.initialize(
             this
@@ -249,6 +252,11 @@ class NewMainActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteListen
 
         rl_electricityNew.setOnClickListener {
             val intent = Intent(this, ElectricityRechargeActivity::class.java)
+            startActivity(intent)
+        }
+
+        rl_dthNew.setOnClickListener {
+            val intent = Intent(this, DthRechargeActivity::class.java)
             startActivity(intent)
         }
 

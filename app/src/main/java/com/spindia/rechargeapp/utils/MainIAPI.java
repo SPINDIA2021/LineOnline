@@ -166,6 +166,9 @@ public interface MainIAPI {
     @GET("get_phn_packages")
     Call<MainMobilePlans> callBrowsePlanService(@Query("phn") String phn);
 
+    @GET("get_dth_plans")
+    Call<MainMobilePlans> callBrowseDTHPlanService(@Query("phn") String phn);
+
     @GET("api/capchaforpanpdfno")
     Call<MainCaptchaResponse> callgetCaptchaService(@Query("rtid") String rtid);
 
