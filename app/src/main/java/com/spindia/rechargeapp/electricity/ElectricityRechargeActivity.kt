@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.spindia.rechargeapp.R
 import com.spindia.rechargeapp.model.CircleListModel
 import com.spindia.rechargeapp.model.OperatorsModel
@@ -26,13 +27,21 @@ import com.spindia.rechargeapp.model.UserModel
 import com.spindia.rechargeapp.network.Preferences
 import com.spindia.rechargeapp.network_calls.AppApiCalls
 import com.spindia.rechargeapp.recharge_services.AllRechargeReportsActivity
-import com.spindia.rechargeapp.utils.AppCommonMethods
-import com.spindia.rechargeapp.utils.AppConstants
-import com.spindia.rechargeapp.utils.AppPrefs
-import com.spindia.rechargeapp.utils.toast
+import com.spindia.rechargeapp.recharge_services.MainMobilePlans
+import com.spindia.rechargeapp.recharge_services.MobilePlansList
+import com.spindia.rechargeapp.recharge_services.OfferInnerModelClss
+import com.spindia.rechargeapp.utils.*
+import okhttp3.OkHttpClient
 
 import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
+import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
 
 class ElectricityRechargeActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteListener,
     OperatorListAdapter.ListAdapterListener, CircleListAdapter.ListAdapterListener  , TextToSpeech.OnInitListener{
@@ -154,10 +163,13 @@ class ElectricityRechargeActivity : AppCompatActivity(), AppApiCalls.OnAPICallCo
                 tvOperatorNameRec.requestFocus()
                 tvOperatorNameRec.setError("Please Select Operator")
             } else {
-                getBillDetails(
+                /*getBillDetails(
                     etElectricityNumber.text.toString(),
                     qr_opcode
-                )
+                )*/
+
+                callServiceFetchBill(etElectricityNumber.text.toString(),
+                    "62")
             }
         }
     }
@@ -516,8 +528,8 @@ class ElectricityRechargeActivity : AppCompatActivity(), AppApiCalls.OnAPICallCo
         tvConsumerBillAmnt=dialog.findViewById(R.id.tvConsumerBillAmnt)
         tvConsumerBillDate=dialog.findViewById(R.id.tvConsumerBillDate)
         tvConsumerDueDate=dialog.findViewById(R.id.tvConsumerDueDate)
-        btnPay=findViewById(R.id.btnPay)
-        ivCloseTab=findViewById(R.id.ivCloseTab)
+        btnPay=dialog.findViewById(R.id.btnPay)
+        ivCloseTab=dialog.findViewById(R.id.ivCloseTab)
 
         tvConsumerNumber.setText("Consumer Number : " + tel)
         tvConsumerName.setText("Customer Name : " + customerName)
@@ -768,4 +780,83 @@ class ElectricityRechargeActivity : AppCompatActivity(), AppApiCalls.OnAPICallCo
             Log.e("TTS", "Initilization Failed!")
         }
     }
-}
+
+
+    private fun callServiceFetchBill(cn: String,op:String) {
+        progress_bar.visibility = View.VISIBLE
+        System.setProperty("http.keepAlive", "false")
+        val httpClient = OkHttpClient.Builder()
+        httpClient.readTimeout(5, TimeUnit.MINUTES).connectTimeout(5, TimeUnit.MINUTES)
+            .writeTimeout(5, TimeUnit.MINUTES).retryOnConnectionFailure(true)
+            .addInterceptor { chain ->
+                val original = chain.request()
+                val builder = original.newBuilder()
+
+                //Request request = chain.request().newBuilder().addHeader("parameter", "value").build();
+                builder.header("Content-Type", "application/x-www-form-urlencoded")
+                val request = builder.method(original.method(), original.body())
+                    .build()
+                chain.proceed(request)
+            }
+        val gson = GsonBuilder()
+            .setLenient()
+            .create()
+        val client = httpClient.build()
+        val retrofit = Retrofit.Builder()
+            .baseUrl(MainIAPI.BASE_URL_BROWSEPLANS)
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build()
+
+
+        //creating the retrofit api service
+        val apiService = retrofit.create(MainIAPI::class.java)
+
+
+
+        //Call<ScannerResponse> call = apiService.saveScan(orderId1,vpa1,name1,amount1,mon_no1,member_id1,password1);
+        val call = apiService.callGetBillService( cn,op)
+
+
+        //making the call to generate checksum
+        call.enqueue(object : Callback<MainFetchBillResponse> {
+            override fun onResponse(
+                call: Call<MainFetchBillResponse>,
+                response: Response<MainFetchBillResponse>
+            ) {
+                progress_bar.visibility = View.GONE
+                if (response.body()!!.getSuccess() == true) {
+
+                    var connectionProfile: ConnectionProfile= response.body()!!.getFetchBillResponse()!!.getConnectionProfile()!!
+                    var paymentDetails: ArrayList<PaymentItemDetail> = (response.body()!!.getFetchBillResponse()!!.getPaymentItemDetails() as ArrayList<PaymentItemDetail>?)!!
+                        showElectirictyDialog(
+                            connectionProfile.getLineItemList()!!.get(0)!!.getValue(),
+                            connectionProfile.getLineItemList()!!.get(1)!!.getValue(),
+                            paymentDetails.get(0).getLineItemList()!!.get(2)!!.getValue(),
+                            paymentDetails.get(0).getLineItemList()!!.get(0)!!.getValue(),
+                            paymentDetails.get(0).getLineItemList()!!.get(0)!!.getValue(),
+                        )
+
+
+                } else {
+                    Toast.makeText(
+                        this@ElectricityRechargeActivity,
+                        "Something Went Wrong",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                }
+
+
+                //once we get the checksum we will initiailize the payment.
+                //the method is taking the checksum we got and the paytm object as the parameter
+            }
+
+            override fun onFailure(call: Call<MainFetchBillResponse>, t: Throwable) {
+                progress_bar.visibility = View.GONE
+                // callServiceFalse(mobileNo);
+                Toast.makeText(this@ElectricityRechargeActivity, t.message, Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+    }

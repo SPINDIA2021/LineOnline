@@ -4,6 +4,8 @@ import android.app.Dialog
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.Window
@@ -71,6 +73,7 @@ class DthRechargeActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteLi
     lateinit var progress_bar:ProgressBar
     lateinit var tvWalletBalance:TextView
     lateinit var rvspinner: RecyclerView
+    lateinit var layOperatorImageDth:RelativeLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,16 +95,21 @@ class DthRechargeActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteLi
         cvWalletBalanceDth=findViewById(R.id.cvWalletBalanceDth)
         progress_bar=findViewById(R.id.progress_bar)
         tvWalletBalance=findViewById(R.id.tvWalletBalance)
+        layOperatorImageDth=findViewById(R.id.layOperatorImageDth)
+
        // rvspinner=findViewById(R.id.rvspinner)
 
 
-
+        layOperatorImageDth.visibility=View.GONE
 
         getOperatorApi(OPERATOR_DTH)
         ivBackBtn.setOnClickListener {
             onBackPressed()
         }
         initViews()
+
+
+        etDthNumber.addTextChangedListener(textWatcher)
 
 
         tvChooseOperator.setOnClickListener {
@@ -144,6 +152,8 @@ class DthRechargeActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteLi
 
 
         }
+
+        cvBrowsePlans.visibility=View.GONE
 
         cvBrowsePlans.setOnClickListener {
             if (etDthNumber.text.toString().isEmpty()) {
@@ -486,6 +496,8 @@ class DthRechargeActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteLi
     fun onClickAtOKButton(offerSModel: MobilePlansList?) {
         if (offerSModel != null) {
             etAmountDth.setText(""+offerSModel.getAmount())
+            operator_code = offerSModel.getOperatorId().toString()
+
             bottomSheetDialogOffers!!.dismiss()
         }
     }
@@ -765,23 +777,23 @@ class DthRechargeActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteLi
                         for (i in offersModalArrayList.indices) {
 
                             if (offersModalArrayList.get(i)
-                                    .getPlanTab() != null && !offersModalArrayList.get(i).getPlanTab().equals("")
+                                    .getPlanCode() != null && !offersModalArrayList.get(i).getPlanCode().equals("")
 
                             ) {
                                 if (map.containsKey(
-                                        offersModalArrayList.get(i).getPlanTab()
+                                        offersModalArrayList.get(i).getPlanCode()
                                     )
                                 ) {
                                     val l2: ArrayList<MobilePlansList> =
-                                        map[offersModalArrayList.get(i).getPlanTab()]!!
+                                        map[offersModalArrayList.get(i).getPlanCode()]!!
                                     l2.add(offersModalArrayList.get(i))
-                                    map[offersModalArrayList.get(i).getPlanTab()!!] = l2
+                                    map[offersModalArrayList.get(i).getPlanCode()!!] = l2
                                     offerMap = map
                                 } else {
                                     val l2: ArrayList<MobilePlansList> =
                                         ArrayList<MobilePlansList>()
                                     l2.add(offersModalArrayList.get(i))
-                                    map[offersModalArrayList.get(i).getPlanTab()!!] = l2
+                                    map[offersModalArrayList.get(i).getPlanCode()!!] = l2
                                     offerMap = map
                                 }
 
@@ -885,4 +897,18 @@ class DthRechargeActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteLi
          bottomSheetDialogOffers!!.show()*/
     }
 
+
+    private val textWatcher = object : TextWatcher {
+        override fun afterTextChanged(s: Editable?) {
+        }
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        }
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            if (s!!.length == 10) {
+                callServiceBrowsePlans(etDthNumber.text.toString())
+                cvBrowsePlans.visibility=View.VISIBLE
+            }
+        }
+    }
 }

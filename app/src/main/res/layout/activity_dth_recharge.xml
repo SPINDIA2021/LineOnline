@@ -193,6 +193,7 @@
 
 
             <RelativeLayout
+                android:id="@+id/layOperatorImageDth"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginHorizontal="0dp"

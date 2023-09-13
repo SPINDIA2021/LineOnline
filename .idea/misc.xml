@@ -159,7 +159,7 @@
         <entry key="app/src/main/res/layout/layout_admin_recharge_history.xml" value="0.1" />
         <entry key="app/src/main/res/layout/layout_dialog_add_user.xml" value="0.246875" />
         <entry key="app/src/main/res/layout/layout_dialog_confirmotp.xml" value="0.24583333333333332" />
-        <entry key="app/src/main/res/layout/layout_dialog_electricitybill.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/layout_dialog_electricitybill.xml" value="0.33" />
         <entry key="app/src/main/res/layout/layout_dialog_offers.xml" value="0.1" />
         <entry key="app/src/main/res/layout/layout_list_bottomsheet.xml" value="0.1" />
         <entry key="app/src/main/res/layout/layout_list_bottomsheet_users.xml" value="0.24583333333333332" />

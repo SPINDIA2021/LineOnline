@@ -10,6 +10,7 @@ import com.spindia.rechargeapp.authentication.response.LoginMainResponse;
 import com.spindia.rechargeapp.authentication.response.BaseCheckMobileResponse;
 import com.spindia.rechargeapp.authentication.response.FalseCheckMobileResponse;
 import com.spindia.rechargeapp.authentication.response.WalletResponse;
+import com.spindia.rechargeapp.electricity.MainFetchBillResponse;
 import com.spindia.rechargeapp.model.OfferSModel;
 import com.spindia.rechargeapp.pancardOffline.BaseHeadingResponse;
 import com.spindia.rechargeapp.pancardOffline.BasePanResponse;
@@ -21,6 +22,7 @@ import com.spindia.rechargeapp.pvc.BasePVCListResponse;
 import com.spindia.rechargeapp.pvc.BasePVCResponse;
 import com.spindia.rechargeapp.pvc.BaseUpdatePVCResponse;
 import com.spindia.rechargeapp.recharge_services.MainMobilePlans;
+import com.spindia.rechargeapp.recharge_services.MainOperatorResponse;
 import com.spindia.rechargeapp.walletHistory.BaseWalletHistoryResponse;
 
 import okhttp3.MultipartBody;
@@ -166,6 +168,9 @@ public interface MainIAPI {
     @GET("get_phn_packages")
     Call<MainMobilePlans> callBrowsePlanService(@Query("phn") String phn);
 
+    @GET("get_phn_oparator")
+    Call<MainOperatorResponse> callBrowseOperatorService(@Query("phn") String phn);
+
     @GET("get_dth_plans")
     Call<MainMobilePlans> callBrowseDTHPlanService(@Query("phn") String phn);
 
@@ -179,5 +184,8 @@ public interface MainIAPI {
                                           @Part("year") RequestBody year, @Part("capcha") RequestBody capcha,
                                           @Part("ackno") RequestBody ackno, @Part("forpan") RequestBody forpan,
                                           @Part("rtid") RequestBody rtid);
+
+    @GET("get_electricity_bill")
+    Call<MainFetchBillResponse> callGetBillService(@Query("cn") String cn, @Query("op") String op);
 
 }

@@ -7,6 +7,8 @@ import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
@@ -112,6 +114,9 @@ class MobilePrepaidActivity : AppCompatActivity(), AppApiCalls.OnAPICallComplete
     private var mInterstitialAd: InterstitialAd? = null
     var pd: ProgressDialog? = null
 
+    lateinit var layCircle:RelativeLayout
+    lateinit var layOperatorImagePrepaid:RelativeLayout
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mobile_prepaid)
@@ -136,7 +141,13 @@ class MobilePrepaidActivity : AppCompatActivity(), AppApiCalls.OnAPICallComplete
         etUPIIDPrepaid=findViewById(R.id.etUPIIDPrepaid)
         ivHistory=findViewById(R.id.ivHistory)
         tvHeading = findViewById(R.id.tvmarque)
+        layOperatorImagePrepaid=findViewById(R.id.layOperatorImagePrepaid)
+        layCircle=findViewById(R.id.layCircle)
 
+       // layOperatorImagePrepaid.visibility=View.GONE
+        layCircle.visibility=View.GONE
+
+        etMobileNumberPrepaid.addTextChangedListener(textWatcher)
 
         pd = ProgressDialog(this@MobilePrepaidActivity)
         pd!!.setMessage("Please wait ad is loading..")
@@ -180,7 +191,7 @@ class MobilePrepaidActivity : AppCompatActivity(), AppApiCalls.OnAPICallComplete
             startActivity(intent)
         }
 
-
+        cvBrowsePlans.visibility=View.GONE
 
         ivBackBtn.setOnClickListener {
             onBackPressed()
@@ -899,6 +910,7 @@ class MobilePrepaidActivity : AppCompatActivity(), AppApiCalls.OnAPICallComplete
     override fun onClickAtOKButton(offerSModel: MobilePlansList?) {
         if (offerSModel != null) {
             etAmountPrepaid.setText(""+offerSModel.getAmount())
+
             bottomSheetDialogOffers!!.dismiss()
         }
     }
@@ -1248,4 +1260,105 @@ class MobilePrepaidActivity : AppCompatActivity(), AppApiCalls.OnAPICallComplete
         })
     }
 
+
+    private fun callServiceBrowseOperators(mobileNo: String) {
+        progress_bar.visibility = View.VISIBLE
+        System.setProperty("http.keepAlive", "false")
+        val httpClient = OkHttpClient.Builder()
+        httpClient.readTimeout(5, TimeUnit.MINUTES).connectTimeout(5, TimeUnit.MINUTES)
+            .writeTimeout(5, TimeUnit.MINUTES).retryOnConnectionFailure(true)
+            .addInterceptor { chain ->
+                val original = chain.request()
+                val builder = original.newBuilder()
+
+                //Request request = chain.request().newBuilder().addHeader("parameter", "value").build();
+                builder.header("Content-Type", "application/x-www-form-urlencoded")
+                val request = builder.method(original.method(), original.body())
+                    .build()
+                chain.proceed(request)
+            }
+        val gson = GsonBuilder()
+            .setLenient()
+            .create()
+        val client = httpClient.build()
+        val retrofit = Retrofit.Builder()
+            .baseUrl(MainIAPI.BASE_URL_BROWSEPLANS)
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build()
+
+
+        //creating the retrofit api service
+        val apiService = retrofit.create(MainIAPI::class.java)
+
+
+
+        //Call<ScannerResponse> call = apiService.saveScan(orderId1,vpa1,name1,amount1,mon_no1,member_id1,password1);
+        val call = apiService.callBrowseOperatorService( mobileNo)
+
+
+        //making the call to generate checksum
+        call.enqueue(object : Callback<MainOperatorResponse> {
+            override fun onResponse(
+                call: Call<MainOperatorResponse>,
+                response: Response<MainOperatorResponse>
+            ) {
+                progress_bar.visibility = View.GONE
+                if (response.body()!!.getSuccess() == true) {
+
+                    operator_code = response.body()!!.getOperatorResponse()!!.getOperatorId()!!.toString()
+                    //operatorName = offerSModel.operatorname!!.trim()
+                    opshortcode=response.body()!!.getOperatorResponse()!!.getOperatorId()!!.toString()
+                   // circleId = response.body()!!.getOperatorResponse()!!.getCircleId()!!.toString()
+                    circleId="13"
+
+                    if (operator_code.equals("1"))
+                    {
+                        tvChooseOperator.setText("Airtel")
+                    }else if (operator_code.equals("140"))
+                    {
+                        tvChooseOperator.setText("Jio")
+                    }else if (operator_code.equals("3"))
+                    {
+                        tvChooseOperator.setText("BSNL")
+                    }else
+                    {
+                        tvChooseOperator.setText("Vodaphone")
+                    }
+                } else {
+                    Toast.makeText(
+                        this@MobilePrepaidActivity,
+                        "Something Went Wrong",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                }
+
+
+                //once we get the checksum we will initiailize the payment.
+                //the method is taking the checksum we got and the paytm object as the parameter
+            }
+
+            override fun onFailure(call: Call<MainOperatorResponse>, t: Throwable) {
+                progress_bar.visibility = View.GONE
+                // callServiceFalse(mobileNo);
+                Toast.makeText(this@MobilePrepaidActivity, t.message, Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    private val textWatcher = object : TextWatcher {
+        override fun afterTextChanged(s: Editable?) {
+        }
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        }
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            if (s!!.length == 10) {
+                callServiceBrowsePlans(etMobileNumberPrepaid.text.toString())
+                callServiceBrowseOperators(etMobileNumberPrepaid.text.toString())
+                cvBrowsePlans.visibility=View.VISIBLE
+            }
+        }
+    }
 }
