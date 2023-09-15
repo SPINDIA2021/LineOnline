@@ -1323,6 +1323,7 @@ public class PVCCardActivity extends AppCompatActivity {
 
         MultipartBody.Part[] pdf2Parts = new MultipartBody.Part[pdf2Files.size()];
         for (int index = 0; index < pdf2Files.size(); index++) {
+
             RequestBody reqFile = RequestBody.create(MediaType.parse("application/pdf"), pdf2Files.get(index));
             pdf2Parts[index] = MultipartBody.Part.createFormData("pdf2", pdf2Files.get(index).getName(), reqFile);
         }

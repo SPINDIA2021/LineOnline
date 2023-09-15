@@ -38,6 +38,7 @@ import com.spindia.rechargeapp.electricity.ElectricityRechargeActivity
 import com.spindia.rechargeapp.model.BannerModel
 import com.spindia.rechargeapp.network.Preferences
 import com.spindia.rechargeapp.network_calls.AppApiCalls
+import com.spindia.rechargeapp.pancardOffline.DownloadPancardActivity
 import com.spindia.rechargeapp.pancardOffline.PanCardActivity
 import com.spindia.rechargeapp.pancardlist.PancardReportsActivity
 import com.spindia.rechargeapp.pvc.PVCCardActivity
@@ -120,6 +121,7 @@ class NewMainActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteListen
     lateinit var rl_addamount:RelativeLayout
     lateinit var rl_electricityNew:LinearLayout
     lateinit var rl_dthNew:LinearLayout
+    lateinit var rl_dwnld:LinearLayout
 
     lateinit var ivLogoutBtn:ImageView
 
@@ -185,6 +187,7 @@ class NewMainActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteListen
         mAdView = findViewById(R.id.adView)
         rl_electricityNew=findViewById(R.id.rl_electricityNew)
         rl_dthNew=findViewById(R.id.rl_dthNew)
+        rl_dwnld=findViewById(R.id.rl_dwnld)
 
         MobileAds.initialize(
             this
@@ -200,6 +203,19 @@ class NewMainActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteListen
             refreshLayout.isRefreshing = false
         }
 
+
+        rl_dwnld.setOnClickListener {
+
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW, Uri.parse(
+                        "https://spindiapan.com/public/nsdl.php"
+                    )
+                )
+            )
+          /*  val intent = Intent(this@NewMainActivity, DownloadPancardActivity::class.java)
+            startActivity(intent)*/
+        }
 
 
         rl_addamount.setOnClickListener {
