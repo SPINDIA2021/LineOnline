@@ -228,6 +228,30 @@
     </string-array>
 
 
+    <string-array name="businessType">
+        <item>Select Type</item>
+        <item>Proprietorship</item>
+        <item>Partnership</item>
+        <item>Private Limited Company</item>
+        <item>Limited Liability Partnership (LLP)</item>
+        <item>Government Departments</item>
+        <item>Society/ Club/ Trust/ AOP</item>
+        <item>Hindu Undivided Family</item>
+        <item>Local Authority</item>
+        <item>Public Sector Undertaking</item>
+        <item>Statutory Body</item>
+        <item>Unlimited Company</item>
+        <item>One Person Company (OPC)</item>
+        <item>Foreign Company</item>
+        <item>Foreign LLP</item>
+    </string-array>
+
+    <string-array name="sameAsResAdd">
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
+
+
     <string-array name="counter">
         <item>1</item>
         <item>2</item>
