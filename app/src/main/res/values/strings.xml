@@ -251,6 +251,38 @@
         <item>No</item>
     </string-array>
 
+    <string-array name="gender">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+
+
+    <string-array name="itrCategory">
+        <item>Select category Business</item>
+        <item>Government</item>
+        <item>Public Sector Unit</item>
+        <item>Others</item>
+        <item>Emitra</item>
+        <item>Not Applicable</item>
+    </string-array>
+
+    <string-array name="itrYear">
+        <item>Select Year</item>
+        <item>2022-23</item>
+        <item>2023-24</item>
+    </string-array>
+
+    <string-array name="itrBusiCategory">
+        <item>Select Business Category /(व्यापार वर्ग)</item>
+        <item>CSC Centre</item>
+        <item>BANK BC</item>
+        <item>Online centre</item>
+        <item>Emitra</item>
+        <item>Cyber Cafe</item>
+        <item>IT Company</item>
+        <item>Private Sector employee</item>
+        <item>Other</item>
+    </string-array>
 
     <string-array name="counter">
         <item>1</item>

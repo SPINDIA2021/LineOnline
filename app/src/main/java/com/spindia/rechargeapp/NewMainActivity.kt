@@ -36,6 +36,7 @@ import com.spindia.rechargeapp.authentication.response.WalletResponse
 import com.spindia.rechargeapp.dth.DthRechargeActivity
 import com.spindia.rechargeapp.electricity.ElectricityRechargeActivity
 import com.spindia.rechargeapp.gstRegstration.GSTRegistrationActivity
+import com.spindia.rechargeapp.itr.ITRActivity
 import com.spindia.rechargeapp.model.BannerModel
 import com.spindia.rechargeapp.network.Preferences
 import com.spindia.rechargeapp.network_calls.AppApiCalls
@@ -124,6 +125,7 @@ class NewMainActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteListen
     lateinit var rl_dthNew:LinearLayout
     lateinit var rl_dwnld:LinearLayout
     lateinit var rl_gstreg:LinearLayout
+    lateinit var rl_itr:LinearLayout
 
     lateinit var ivLogoutBtn:ImageView
 
@@ -191,6 +193,7 @@ class NewMainActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteListen
         rl_dthNew=findViewById(R.id.rl_dthNew)
         rl_dwnld=findViewById(R.id.rl_dwnld)
         rl_gstreg=findViewById(R.id.rl_gstreg)
+        rl_itr=findViewById(R.id.rl_itr)
 
         MobileAds.initialize(
             this
@@ -249,6 +252,13 @@ class NewMainActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteListen
             val intent = Intent(this, GSTRegistrationActivity::class.java)
             startActivity(intent)
         }
+
+
+        rl_itr.setOnClickListener {
+            val intent = Intent(this, ITRActivity::class.java)
+            startActivity(intent)
+        }
+
 
         iVWhatsapp.setOnClickListener {
             openWhatsApp()

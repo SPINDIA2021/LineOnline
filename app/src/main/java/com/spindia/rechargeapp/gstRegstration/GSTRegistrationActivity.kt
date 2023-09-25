@@ -1,11 +1,18 @@
 package com.spindia.rechargeapp.gstRegstration
 
+import android.content.Intent
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.View
 import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
 import androidx.appcompat.app.AppCompatActivity
 import com.spindia.rechargeapp.R
+import com.theartofdev.edmodo.cropper.CropImage
+import com.theartofdev.edmodo.cropper.CropImageView
+import java.io.IOException
 
 class GSTRegistrationActivity: AppCompatActivity() {
 
@@ -34,6 +41,27 @@ class GSTRegistrationActivity: AppCompatActivity() {
     lateinit var edBusiAddressPin:EditText
 
 
+    var rgAadhar: RadioGroup? = null
+    var rbSingle: RadioButton? = null
+    var rbDouble:RadioButton? = null
+
+    lateinit var imgAdharFront: ImageView
+    lateinit var imgAdharBack:ImageView
+    lateinit var imgPancard:ImageView
+    lateinit var imgGSTForm:ImageView
+    lateinit var imgBill:ImageView
+    lateinit var imgCheque:ImageView
+
+
+    var chequeArrayList = java.util.ArrayList<Uri>()
+    var adharFrontArrayList = java.util.ArrayList<Uri>()
+    var adharBackArrayList = java.util.ArrayList<Uri>()
+    var billArrayList = java.util.ArrayList<Uri>()
+    var panArrayList = java.util.ArrayList<Uri>()
+    var gstArrayList = java.util.ArrayList<Uri>()
+
+    var adharType = "S"
+    lateinit var selectType: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,11 +89,35 @@ class GSTRegistrationActivity: AppCompatActivity() {
         spinner_resdAdd=findViewById(R.id.spinner_resdAdd)
         lay_BusiAdd=findViewById(R.id.lay_BusiAdd)
 
+        rgAadhar = findViewById(R.id.rg_adhar)
+        rbSingle = findViewById(R.id.rb_single)
+        rbDouble = findViewById(R.id.rb_double)
+
+        imgBill = findViewById<ImageView>(R.id.imgBill)
+        imgAdharFront = findViewById(R.id.imgAdharFront)
+        imgAdharBack = findViewById(R.id.imgAdharBack)
+        imgPancard = findViewById<ImageView>(R.id.imgPancard)
+        imgCheque = findViewById(R.id.imgCheque)
+        imgGSTForm = findViewById<ImageView>(R.id.imgGstForm)
+
         initViews()
     }
 
 
     fun initViews() {
+
+
+        rbSingle!!.setOnClickListener {
+            adharType = "S"
+            imgAdharBack.visibility = View.GONE
+        }
+
+        /*onClicklistener for familyrb radio button click..*/
+
+        /*onClicklistener for familyrb radio button click..*/rbDouble!!.setOnClickListener {
+            adharType = "D"
+            imgAdharBack.visibility = View.VISIBLE
+        }
 
 
         val busiTypeArray = resources.getStringArray(R.array.businessType)
@@ -125,6 +177,90 @@ class GSTRegistrationActivity: AppCompatActivity() {
         } catch (e: java.lang.Exception) {
         }
 
+
+
+        imgCheque.setOnClickListener(View.OnClickListener {
+            selectType = "cheque"
+            chequeArrayList = ArrayList<Uri>()
+            CropImage.activity(null).setGuidelines(CropImageView.Guidelines.ON)
+                .start(this@GSTRegistrationActivity)
+        })
+
+        imgBill.setOnClickListener(View.OnClickListener {
+            selectType = "bill"
+            billArrayList = ArrayList<Uri>()
+            CropImage.activity(null).setGuidelines(CropImageView.Guidelines.ON)
+                .start(this@GSTRegistrationActivity)
+        })
+
+        imgGSTForm.setOnClickListener(View.OnClickListener {
+            selectType = "gst"
+            gstArrayList = ArrayList<Uri>()
+            CropImage.activity(null).setGuidelines(CropImageView.Guidelines.ON)
+                .start(this@GSTRegistrationActivity)
+        })
+
+        imgPancard.setOnClickListener(View.OnClickListener {
+            selectType = "pan"
+            panArrayList = ArrayList<Uri>()
+            CropImage.activity(null).setGuidelines(CropImageView.Guidelines.ON)
+                .start(this@GSTRegistrationActivity)
+        })
+
+
+        imgAdharFront.setOnClickListener {
+            selectType = "adharFront"
+            adharFrontArrayList = java.util.ArrayList()
+            CropImage.activity(null)
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .start(this@GSTRegistrationActivity)
+        }
+
+        imgAdharBack.setOnClickListener {
+            selectType = "adharBack"
+            adharBackArrayList = java.util.ArrayList()
+            CropImage.activity(null)
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .start(this@GSTRegistrationActivity)
+        }
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            val result = CropImage.getActivityResult(data)
+            if (resultCode == RESULT_OK) {
+                var bitmap: Bitmap? = null
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(contentResolver, result.uri)
+                    if (selectType == "cheque") {
+                        chequeArrayList.add(result.uri)
+                        imgCheque.setImageBitmap(bitmap)
+                    } else if (selectType == "adharFront") {
+                        adharFrontArrayList.add(result.uri)
+                        imgAdharFront.setImageBitmap(bitmap)
+                    } else if (selectType == "adharBack") {
+                        adharBackArrayList.add(result.uri)
+                        imgAdharBack.setImageBitmap(bitmap)
+                    } else if (selectType == "bill") {
+                        billArrayList.add(result.uri)
+                        imgBill.setImageBitmap(bitmap)
+                    } else if (selectType == "gst") {
+                        gstArrayList.add(result.uri)
+                        imgGSTForm.setImageBitmap(bitmap)
+                    } else if (selectType == "pan") {
+                        panArrayList.add(result.uri)
+                        imgPancard.setImageBitmap(bitmap)
+                    }
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+                //   Toast.makeText(this, "Cropping successful, Sample: " + result.getSampleSize(), Toast.LENGTH_LONG).show();
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Toast.makeText(this, "Cropping failed: " + result.error, Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
 

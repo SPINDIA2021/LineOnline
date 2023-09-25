@@ -107,6 +107,7 @@
         </activity>
 
         <activity android:name=".gstRegstration.GSTRegistrationActivity"/>
+        <activity android:name=".itr.ITRActivity"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

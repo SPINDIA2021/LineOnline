@@ -122,8 +122,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="60dp"
-                    android:textAlignment="center"
                     android:text="APPLY NEW PANCARD\n(Rs. 100)"
+                    android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textSize="17sp"
                     android:textStyle="bold" />
@@ -363,9 +363,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:text="Aadhar Images :"
-                    android:textStyle="bold"
                     android:textColor="@color/black"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
                 <RadioGroup
                     android:id="@+id/rg_adhar"
@@ -374,27 +374,29 @@
                     android:orientation="horizontal"
 
                     >
+
                     <RadioButton
+                        android:id="@+id/rb_single"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text=" Single"
-                        android:textSize="13sp"
-                        android:textColor="@color/newcolor1"
-                        android:checked="true"
-                        android:layout_weight="1"
-                        android:buttonTint="@color/newcolor1"
                         android:layout_marginLeft="0dp"
-                        android:id="@+id/rb_single"/>
+                        android:layout_weight="1"
+                        android:buttonTint="@color/newcolor1"
+                        android:checked="true"
+                        android:text=" Single"
+                        android:textColor="@color/newcolor1"
+                        android:textSize="13sp" />
+
                     <RadioButton
+                        android:id="@+id/rb_double"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text=" Front-Back"
-                        android:textSize="13sp"
-                        android:textColor="@color/newcolor1"
-                        android:buttonTint="@color/newcolor1"
-                        android:layout_weight="1"
                         android:layout_marginLeft="25dp"
-                        android:id="@+id/rb_double"/>
+                        android:layout_weight="1"
+                        android:buttonTint="@color/newcolor1"
+                        android:text=" Front-Back"
+                        android:textColor="@color/newcolor1"
+                        android:textSize="13sp" />
                 </RadioGroup>
 
                 <LinearLayout
@@ -413,72 +415,74 @@
                         android:src="@drawable/add_image" />
 
                     <ImageView
-                        android:visibility="gone"
                         android:id="@+id/imgAdharBack"
                         android:layout_width="match_parent"
                         android:layout_height="150dp"
                         android:layout_marginLeft="5dp"
                         android:layout_weight="1"
                         android:scaleType="fitXY"
-                        android:src="@drawable/add_image" />
+                        android:src="@drawable/add_image"
+                        android:visibility="gone" />
                 </LinearLayout>
 
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginRight="5dp"
-                    android:orientation="vertical"
-                    >
-                    <TextView
-                        android:id="@+id/textSignature"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:text="Signature :"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
-                <ImageView
-                    android:id="@+id/imgSignature"
-                    android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:layout_marginTop="20dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/add_image" />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="5dp"
-                    android:orientation="vertical"
-                    >
-                    <TextView
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textSignature"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:text="Signature :"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:id="@+id/imgSignature"
+                            android:layout_width="match_parent"
+                            android:layout_height="150dp"
+                            android:layout_marginTop="20dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/add_image" />
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:text="Photo :"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
-                <ImageView
-                    android:id="@+id/imgPhoto"
-                    android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:layout_marginTop="20dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/add_image" />
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:text="Photo :"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:id="@+id/imgPhoto"
+                            android:layout_width="match_parent"
+                            android:layout_height="150dp"
+                            android:layout_marginTop="20dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/add_image" />
+                    </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
 
                 <TextView
                     android:id="@+id/textGardianAadhar"
@@ -486,9 +490,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:text="Guardian Aadhar :"
-                    android:textStyle="bold"
                     android:textColor="@color/black"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
                 <ImageView
                     android:id="@+id/imgGardianAadhar"

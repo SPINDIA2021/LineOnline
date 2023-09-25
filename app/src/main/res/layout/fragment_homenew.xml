@@ -603,6 +603,39 @@
                     android:textColor="@color/white"
                     android:textSize="18sp" />
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/rl_itr"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:layout_marginLeft="3dp">
+                <RelativeLayout
+                    android:layout_width="60dp"
+                    android:layout_height="70dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/back_recharge">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/itr"
+                        app:tint="@color/black" />
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Income Tax Return\nइनकम टैक्स रिटर्न"
+                    android:layout_marginLeft="10dp"
+                    android:textStyle="bold"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
