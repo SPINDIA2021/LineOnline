@@ -52,6 +52,8 @@ class GSTRegistrationActivity: AppCompatActivity() {
     lateinit var imgBill:ImageView
     lateinit var imgCheque:ImageView
 
+    lateinit var btnSubmit:Button
+
 
     var chequeArrayList = java.util.ArrayList<Uri>()
     var adharFrontArrayList = java.util.ArrayList<Uri>()
@@ -100,6 +102,8 @@ class GSTRegistrationActivity: AppCompatActivity() {
         imgCheque = findViewById(R.id.imgCheque)
         imgGSTForm = findViewById<ImageView>(R.id.imgGstForm)
 
+        btnSubmit=findViewById(R.id.btnSubmit)
+
         initViews()
     }
 
@@ -112,9 +116,7 @@ class GSTRegistrationActivity: AppCompatActivity() {
             imgAdharBack.visibility = View.GONE
         }
 
-        /*onClicklistener for familyrb radio button click..*/
-
-        /*onClicklistener for familyrb radio button click..*/rbDouble!!.setOnClickListener {
+       rbDouble!!.setOnClickListener {
             adharType = "D"
             imgAdharBack.visibility = View.VISIBLE
         }

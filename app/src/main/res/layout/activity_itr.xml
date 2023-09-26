@@ -946,6 +946,17 @@
                         android:textSize="13sp" />
                 </LinearLayout>
 
+                <Button
+                    android:id="@+id/btnSubmit"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginBottom="@dimen/_8sdp"
+                    android:background="@drawable/bg_buttons"
+                    android:backgroundTint="@color/new_app_color"
+                    android:text="SUBMIT"
+                    android:textColor="@color/white" />
+
             </LinearLayout>
         </RelativeLayout>
     </ScrollView>

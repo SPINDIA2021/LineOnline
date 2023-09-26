@@ -58,6 +58,7 @@
         <entry key="app/src/main/res/drawable/rounded_dialog.xml" value="0.1" />
         <entry key="app/src/main/res/layout/actiivty_pancard.xml" value="0.33" />
         <entry key="app/src/main/res/layout/actiivty_pvc_card.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_aadhar_udhyog.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_add_beneficiary.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_add_money.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_adminmain.xml" value="0.1" />
@@ -101,11 +102,11 @@
         <entry key="app/src/main/res/layout/activity_forgot_password_new.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_fund_recieve_report.xml" value="0.10943396226415095" />
         <entry key="app/src/main/res/layout/activity_fund_transfer_report.xml" value="0.21" />
-        <entry key="app/src/main/res/layout/activity_gstreg.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/activity_gstreg.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_heading.xml" value="0.16" />
         <entry key="app/src/main/res/layout/activity_invoice_receipt.xml" value="0.24583333333333332" />
         <entry key="app/src/main/res/layout/activity_invoice_view.xml" value="0.24427083333333333" />
-        <entry key="app/src/main/res/layout/activity_itr.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_itr.xml" value="0.12" />
         <entry key="app/src/main/res/layout/activity_kyc_verification.xml" value="0.24583333333333332" />
         <entry key="app/src/main/res/layout/activity_land_line_recharge.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_ledger_report.xml" value="0.10943396226415095" />

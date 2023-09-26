@@ -2,10 +2,7 @@ package com.spindia.rechargeapp.itr
 
 import android.os.Bundle
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.Spinner
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.spindia.rechargeapp.R
 
@@ -37,6 +34,8 @@ class ITRActivity : AppCompatActivity() {
     lateinit var edBranch:EditText
     lateinit var edAccounType:EditText
 
+    lateinit var btnSubmit:Button
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_itr)
@@ -66,6 +65,7 @@ class ITRActivity : AppCompatActivity() {
         edIFSCCode=findViewById(R.id.edIFSCCode)
         edBranch=findViewById(R.id.edBranch)
         edAccounType=findViewById(R.id.edAccounType)
+        btnSubmit=findViewById(R.id.btnSubmit)
 
         initViews()
     }

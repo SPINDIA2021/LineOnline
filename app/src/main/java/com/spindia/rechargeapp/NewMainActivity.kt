@@ -31,6 +31,7 @@ import com.google.android.gms.ads.MobileAds
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.spindia.rechargeapp.aadharUdhyog.AadharUdhyogActivity
 import com.spindia.rechargeapp.authentication.LoginActivity
 import com.spindia.rechargeapp.authentication.response.WalletResponse
 import com.spindia.rechargeapp.dth.DthRechargeActivity
@@ -126,6 +127,7 @@ class NewMainActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteListen
     lateinit var rl_dwnld:LinearLayout
     lateinit var rl_gstreg:LinearLayout
     lateinit var rl_itr:LinearLayout
+    lateinit var rl_adharudhyog:LinearLayout
 
     lateinit var ivLogoutBtn:ImageView
 
@@ -194,6 +196,7 @@ class NewMainActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteListen
         rl_dwnld=findViewById(R.id.rl_dwnld)
         rl_gstreg=findViewById(R.id.rl_gstreg)
         rl_itr=findViewById(R.id.rl_itr)
+        rl_adharudhyog=findViewById(R.id.rl_adharudhyog)
 
         MobileAds.initialize(
             this
@@ -258,6 +261,12 @@ class NewMainActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteListen
             val intent = Intent(this, ITRActivity::class.java)
             startActivity(intent)
         }
+
+        rl_adharudhyog.setOnClickListener {
+            val intent = Intent(this, AadharUdhyogActivity::class.java)
+            startActivity(intent)
+        }
+
 
 
         iVWhatsapp.setOnClickListener {
