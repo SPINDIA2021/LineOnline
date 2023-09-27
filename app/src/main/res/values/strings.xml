@@ -258,7 +258,7 @@
 
 
     <string-array name="itrCategory">
-        <item>Select category Business</item>
+        <item>Select category</item>
         <item>Government</item>
         <item>Public Sector Unit</item>
         <item>Others</item>

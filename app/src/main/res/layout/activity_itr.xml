@@ -412,20 +412,17 @@
                             android:src="@drawable/calendar"
                             app:tint="@color/white" />
                     </RelativeLayout>
-
-                    <EditText
-                        android:id="@+id/edDOB"
+                    <TextView
+                        android:id="@+id/tvDOB"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="10dp"
                         android:background="@null"
-                        android:ems="10"
-                        android:inputType="date"
-                        android:maxLines="1"
                         android:hint="Date Of Birth /(जन्म तिथि)"
                         android:textColor="@color/black"
                         android:textSize="13sp" />
+
                 </LinearLayout>
 
                 <TextView

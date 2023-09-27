@@ -188,4 +188,13 @@ public interface MainIAPI {
     @GET("get_electricity_bill")
     Call<MainFetchBillResponse> callGetBillService(@Query("cn") String cn, @Query("op") String op);
 
+
+
+
+    @Multipart
+    @POST("api/itrgstudhog")
+    Call<BasePanResponse> gstItrUdhyogSave(@Part("rtid") RequestBody rtid, @Part("formtype") RequestBody formtype,
+                                      @Part("data") RequestBody data,
+                                      @Part MultipartBody.Part[] images);
+
 }

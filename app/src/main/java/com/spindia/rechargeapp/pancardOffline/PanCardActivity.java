@@ -37,6 +37,7 @@ import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import com.spindia.rechargeapp.NewMainActivity;
 import com.spindia.rechargeapp.R;
 import com.spindia.rechargeapp.authentication.LoginActivity;
@@ -50,6 +51,9 @@ import com.spindia.rechargeapp.utils.AppConstants;
 import com.spindia.rechargeapp.utils.MainIAPI;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -472,8 +476,6 @@ public class PanCardActivity extends AppCompatActivity {
         MainIAPI apiService = retrofit.create(MainIAPI.class);
 
 
-
-
         RequestBody ratype,retailerId;
 
         RequestBody name = createPartFromString(edFirstName.getText().toString());
@@ -489,6 +491,8 @@ public class PanCardActivity extends AppCompatActivity {
         }else {
             ratype = createPartFromString("N");
         }
+
+
 
         MultipartBody.Part[] profilesParts = new MultipartBody.Part[profileFiles.size()];
         for (int index = 0; index < profileFiles.size(); index++) {
@@ -645,6 +649,8 @@ public class PanCardActivity extends AppCompatActivity {
         progress_bar.setVisibility(View.VISIBLE);
         System.setProperty("http.keepAlive", "false");
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+
+
 
         httpClient.readTimeout(5, TimeUnit.MINUTES).
                 connectTimeout(5, TimeUnit.MINUTES).
