@@ -76,7 +76,7 @@ public class PanCardlistResponse {
     private Object addressdetail;
     @SerializedName("document")
     @Expose
-    private Object document;
+    private String document;
     @SerializedName("receiptuploaddate")
     @Expose
     private String receiptuploaddate;
@@ -89,6 +89,12 @@ public class PanCardlistResponse {
     @SerializedName("domain")
     @Expose
     private String domain;
+    @SerializedName("panno")
+    @Expose
+    private String panno;
+    @SerializedName("panpdf")
+    @Expose
+    private String panpdf;
 
     public Integer getId() {
         return id;
@@ -274,11 +280,11 @@ public class PanCardlistResponse {
         this.addressdetail = addressdetail;
     }
 
-    public Object getDocument() {
+    public String getDocument() {
         return document;
     }
 
-    public void setDocument(Object document) {
+    public void setDocument(String document) {
         this.document = document;
     }
 
@@ -314,4 +320,19 @@ public class PanCardlistResponse {
         this.domain = domain;
     }
 
+    public String getPanno() {
+        return panno;
+    }
+
+    public void setPanno(String panno) {
+        this.panno = panno;
+    }
+
+    public String getPanpdf() {
+        return panpdf;
+    }
+
+    public void setPanpdf(String panpdf) {
+        this.panpdf = panpdf;
+    }
 }

@@ -44,6 +44,7 @@ import com.spindia.rechargeapp.paytmIntegration.Constants
 import com.spindia.rechargeapp.paytmIntegration.Paytm
 import com.spindia.rechargeapp.utils.AppConstants
 import com.spindia.rechargeapp.utils.MainIAPI
+import com.spindia.rechargeapp.walletHistory.BaseWalletHistoryResponse
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
@@ -340,8 +341,13 @@ class PancardReportsActivity : AppCompatActivity(),
 
         val document=pancardListModalArrayList.get(i).document
 
-        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(document.toString()))
-        startActivity(browserIntent)
+        var amount="20"
+        if (walletBalance.toDouble() >= amount.toDouble())
+        {
+            callServiceDeductWallet(amount,document)
+        }
+
+
 
     }
 
@@ -1077,4 +1083,82 @@ class PancardReportsActivity : AppCompatActivity(),
         val alert11 = builder1.create()
         alert11.show()
     }
+
+
+    private fun callServiceDeductWallet( amount: String, document:String) {
+        progress_bar.visibility = View.VISIBLE
+        System.setProperty("http.keepAlive", "false")
+        val httpClient = OkHttpClient.Builder()
+        httpClient.readTimeout(5, TimeUnit.MINUTES).connectTimeout(5, TimeUnit.MINUTES)
+            .writeTimeout(5, TimeUnit.MINUTES).retryOnConnectionFailure(true)
+            .addInterceptor { chain ->
+                val original = chain.request()
+                val builder = original.newBuilder()
+
+                //Request request = chain.request().newBuilder().addHeader("parameter", "value").build();
+                builder.header("Content-Type", "application/x-www-form-urlencoded")
+                val request = builder.method(original.method(), original.body())
+                    .build()
+                chain.proceed(request)
+            }
+        val gson = GsonBuilder()
+            .setLenient()
+            .create()
+        val client = httpClient.build()
+        val retrofit = Retrofit.Builder()
+            .baseUrl(MainIAPI.BASE_URL)
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build()
+
+
+        //creating the retrofit api service
+        val apiService = retrofit.create(MainIAPI::class.java)
+        val retailerId = createPartFromString(Preferences.getString(AppConstants.MOBILE))
+        val type = createPartFromString("debit")
+        val amount = createPartFromString(amount)
+        val remark = createPartFromString("pan pdf download")
+
+
+        //Call<ScannerResponse> call = apiService.saveScan(orderId1,vpa1,name1,amount1,mon_no1,member_id1,password1);
+        val call = apiService.saveFailureRecharge(retailerId, type, amount, remark)
+
+
+        //making the call to generate checksum
+        call.enqueue(object : Callback<BaseWalletHistoryResponse> {
+            override fun onResponse(
+                call: Call<BaseWalletHistoryResponse>,
+                response: Response<BaseWalletHistoryResponse>
+            ) {
+                progress_bar.visibility = View.GONE
+                if (response.body()!!.status == true) {
+
+
+
+                    val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(document))
+                    startActivity(browserIntent)
+
+
+                } else {
+                    Toast.makeText(
+                        this@PancardReportsActivity,
+                        response.body()!!.message,
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                }
+
+
+                //once we get the checksum we will initiailize the payment.
+                //the method is taking the checksum we got and the paytm object as the parameter
+            }
+
+            override fun onFailure(call: Call<BaseWalletHistoryResponse>, t: Throwable) {
+                progress_bar.visibility = View.GONE
+                // callServiceFalse(mobileNo);
+                Toast.makeText(this@PancardReportsActivity, t.message, Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.spindia.rechargeapp.utils;
 
 
+import com.spindia.rechargeapp.aadharUdhyog.BaseUdhyogResponse;
 import com.spindia.rechargeapp.admin.BaseAdminRechargeResponse;
 import com.spindia.rechargeapp.admin.pan.BaseAdminPancardListResponse;
 import com.spindia.rechargeapp.admin.pvc.AdminPVCUpdateResponse;
@@ -11,6 +12,8 @@ import com.spindia.rechargeapp.authentication.response.BaseCheckMobileResponse;
 import com.spindia.rechargeapp.authentication.response.FalseCheckMobileResponse;
 import com.spindia.rechargeapp.authentication.response.WalletResponse;
 import com.spindia.rechargeapp.electricity.MainFetchBillResponse;
+import com.spindia.rechargeapp.gstRegstration.BaseGSTResponse;
+import com.spindia.rechargeapp.itr.BaseITRResponse;
 import com.spindia.rechargeapp.model.OfferSModel;
 import com.spindia.rechargeapp.pancardOffline.BaseHeadingResponse;
 import com.spindia.rechargeapp.pancardOffline.BasePanResponse;
@@ -196,5 +199,21 @@ public interface MainIAPI {
     Call<BasePanResponse> gstItrUdhyogSave(@Part("rtid") RequestBody rtid, @Part("formtype") RequestBody formtype,
                                       @Part("data") RequestBody data,
                                       @Part MultipartBody.Part[] images);
+
+    @Multipart
+    @POST("api/itrgstudhog")
+    Call<BasePanResponse> gstItrSave(@Part("rtid") RequestBody rtid, @Part("formtype") RequestBody formtype,
+                                           @Part("data") RequestBody data);
+    @Multipart
+    @POST("api/itrgstudhog_history")
+    Call<BaseGSTResponse> callGetGSTListService(@Part("rtid") RequestBody rtid, @Part("formtype") RequestBody formtype);
+
+    @Multipart
+    @POST("api/itrgstudhog_history")
+    Call<BaseUdhyogResponse> callGetUdhyogListService(@Part("rtid") RequestBody rtid, @Part("formtype") RequestBody formtype);
+
+    @Multipart
+    @POST("api/itrgstudhog_history")
+    Call<BaseITRResponse> callGetITRListService(@Part("rtid") RequestBody rtid, @Part("formtype") RequestBody formtype);
 
 }

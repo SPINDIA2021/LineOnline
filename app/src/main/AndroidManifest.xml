@@ -100,6 +100,9 @@
         <activity android:name=".admin.pvc.AdminPVCIcardReportsActivity"/>
         <activity android:name=".admin.recharge.AdminRechargeReportsActivity"/>
         <activity android:name=".admin.heading.RechargeHeadingActivity"/>
+        <activity android:name=".gstRegstration.GSTReportActivity"/>
+        <activity android:name=".aadharUdhyog.UdhyogReportActivity"/>
+        <activity android:name=".itr.ITRReportActivity"/>
 
         <activity android:name=".authentication.LoginActivity"
             android:exported="true">

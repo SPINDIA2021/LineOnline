@@ -43,6 +43,7 @@ import com.spindia.rechargeapp.R;
 import com.spindia.rechargeapp.authentication.LoginActivity;
 import com.spindia.rechargeapp.authentication.SignUpActivity;
 import com.spindia.rechargeapp.authentication.response.BaseCheckMobileResponse;
+import com.spindia.rechargeapp.authentication.response.WalletResponse;
 import com.spindia.rechargeapp.network.Preferences;
 import com.spindia.rechargeapp.network.Util;
 import com.spindia.rechargeapp.pancardlist.PancardReportsActivity;
@@ -110,6 +111,8 @@ public class PanCardActivity extends AppCompatActivity {
     private InterstitialAd mInterstitialAd;
     ProgressDialog pd ;
 
+    String walletBalance="0";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -145,6 +148,7 @@ public class PanCardActivity extends AppCompatActivity {
 
         callServiceGetHeading();
 
+        callServiceGetWalletBalance();
 
         pd= new ProgressDialog(PanCardActivity.this);
         pd.setMessage("Please wait ad is loading..");
@@ -320,6 +324,8 @@ public class PanCardActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+
+
                 if (edFirstName.getText().toString().isEmpty())
                 {
                     Toast.makeText(PanCardActivity.this, "Please enter name", Toast.LENGTH_SHORT).show();
@@ -424,7 +430,16 @@ public class PanCardActivity extends AppCompatActivity {
                     {
                         Toast.makeText(PanCardActivity.this,"Please select photo",Toast.LENGTH_LONG).show();
                     }else {
-                        callServiceSave();
+
+                        String amount="100";
+                        if (Double.valueOf(walletBalance) >= Double.valueOf(amount))
+                        {
+                            callServiceSave();
+                        }else{
+                            Toast.makeText(PanCardActivity.this,"Insufficient Balance",Toast.LENGTH_LONG).show();
+                        }
+
+
 
                     }
 
@@ -727,6 +742,88 @@ public class PanCardActivity extends AppCompatActivity {
     }
 
 
+    private void callServiceGetWalletBalance()
+    {
+        progress_bar.setVisibility(View.VISIBLE);
+        System.setProperty("http.keepAlive", "false");
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+
+
+
+        httpClient.readTimeout(5, TimeUnit.MINUTES).
+                connectTimeout(5, TimeUnit.MINUTES).
+                writeTimeout(5, TimeUnit.MINUTES).
+                retryOnConnectionFailure(true).addInterceptor(new Interceptor() {
+                    @Override
+                    public okhttp3.Response intercept(Chain chain) throws IOException {
+                        Request original = chain.request();
+                        Request.Builder builder = original.newBuilder();
+
+                        //Request request = chain.request().newBuilder().addHeader("parameter", "value").build();
+                        builder.header("Content-Type", "application/x-www-form-urlencoded");
+
+                        Request request = builder.method(original.method(), original.body())
+                                .build();
+
+                        return chain.proceed(request);
+
+                    }
+                });
+
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+
+        OkHttpClient client = httpClient.build();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(MainIAPI.BASE_URL)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+
+        //creating the retrofit api service
+        MainIAPI apiService = retrofit.create(MainIAPI.class);
+
+        RequestBody retailerId = createPartFromString(Preferences.getString(AppConstants.MOBILE));
+        RequestBody entry = createPartFromString("single");
+
+
+        //Call<ScannerResponse> call = apiService.saveScan(orderId1,vpa1,name1,amount1,mon_no1,member_id1,password1);
+        Call<WalletResponse> call = apiService.getWalletBalance(retailerId,entry );
+
+
+        //making the call to generate checksum
+        call.enqueue(new Callback<WalletResponse>() {
+            @Override
+            public void onResponse(Call<WalletResponse> call, Response<WalletResponse> response) {
+                progress_bar.setVisibility(View.GONE);
+
+                if (response.body().getStatus()==true)
+                {
+                    //  Toast.makeText(PanCardActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    walletBalance=response.body().getData().toString();
+
+                }else {
+                    Toast.makeText(PanCardActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                }
+
+
+                //once we get the checksum we will initiailize the payment.
+                //the method is taking the checksum we got and the paytm object as the parameter
+
+            }
+
+            @Override
+            public void onFailure(Call<WalletResponse> call, Throwable t) {
+                progress_bar.setVisibility(View.GONE);
+                // callServiceFalse(mobileNo);
+                Toast.makeText(PanCardActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
 
 
 }

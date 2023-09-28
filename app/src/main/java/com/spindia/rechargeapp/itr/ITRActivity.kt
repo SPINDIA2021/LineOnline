@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.GsonBuilder
 import com.spindia.rechargeapp.NewMainActivity
 import com.spindia.rechargeapp.R
+import com.spindia.rechargeapp.authentication.response.WalletResponse
 import com.spindia.rechargeapp.network.Preferences
 import com.spindia.rechargeapp.pancardOffline.BasePanResponse
 import com.spindia.rechargeapp.utils.AppConstants
@@ -80,7 +81,9 @@ class ITRActivity : AppCompatActivity() {
     var gender="Male"
     var selectedItrCategory="Select category"
     var selecteditrBusiCategory="Select Business Category /(व्यापार वर्ग)"
-    
+    var walletBalance="0"
+    var amount="10"
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -118,7 +121,7 @@ class ITRActivity : AppCompatActivity() {
     }
 
     fun initViews() {
-
+        callServiceGetWalletBalance()
 
         val itrYearArray = resources.getStringArray(R.array.itrYear)
         try {
@@ -342,7 +345,14 @@ class ITRActivity : AppCompatActivity() {
 
             }else{
 
+                if (walletBalance.toDouble() >= amount.toDouble())
+                {
                     callServiceSave()
+
+                }else{
+                    Toast.makeText(this@ITRActivity,"Insufficient Balance",Toast.LENGTH_LONG).show()
+                }
+
 
             }
         }
@@ -423,25 +433,12 @@ class ITRActivity : AppCompatActivity() {
         val formtype: RequestBody = createPartFromString("itr")
         val data: RequestBody = createPartFromString(obj.toString())
 
-        var gstFiles = java.util.ArrayList<File>()
-
-        val mCurrentPhotoPath: String = ""
-        val mImageFile = File(Uri.parse(mCurrentPhotoPath).path)
-         gstFiles.add(mImageFile)
-
-        val filesParts = arrayOfNulls<MultipartBody.Part>(0)
-
-    //    filesParts[0] = MultipartBody.Part.createFormData("images",gstFiles.get(0).getName(), RequestBody.create(MediaType.parse(""), gstFiles.get(0)))
-
-
-
 
         //Call<ScannerResponse> call = apiService.saveScan(orderId1,vpa1,name1,amount1,mon_no1,member_id1,password1);
-        val call = apiService.gstItrUdhyogSave(
+        val call = apiService.gstItrSave(
             rtid,
             formtype,
-            data,
-            filesParts
+            data
         )
 
 
@@ -496,5 +493,84 @@ class ITRActivity : AppCompatActivity() {
             MultipartBody.FORM, descriptionString
         )
     }
+
+
+
+    private fun callServiceGetWalletBalance() {
+        progress_bar.visibility = View.VISIBLE
+        System.setProperty("http.keepAlive", "false")
+        val httpClient = OkHttpClient.Builder()
+        httpClient.readTimeout(5, TimeUnit.MINUTES).connectTimeout(5, TimeUnit.MINUTES)
+            .writeTimeout(5, TimeUnit.MINUTES).retryOnConnectionFailure(true)
+            .addInterceptor { chain ->
+                val original = chain.request()
+                val builder = original.newBuilder()
+
+                //Request request = chain.request().newBuilder().addHeader("parameter", "value").build();
+                builder.header("Content-Type", "application/x-www-form-urlencoded")
+                val request = builder.method(original.method(), original.body())
+                    .build()
+                chain.proceed(request)
+            }
+        val gson = GsonBuilder()
+            .setLenient()
+            .create()
+        val client = httpClient.build()
+        val retrofit = Retrofit.Builder()
+            .baseUrl(MainIAPI.BASE_URL)
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build()
+
+
+        //creating the retrofit api service
+        val apiService = retrofit.create(MainIAPI::class.java)
+
+        val retailerId: RequestBody = createPartFromString(Preferences.getString(AppConstants.MOBILE))
+        val entry: RequestBody = createPartFromString("single")
+
+        //Call<ScannerResponse> call = apiService.saveScan(orderId1,vpa1,name1,amount1,mon_no1,member_id1,password1);
+        val call = apiService.getWalletBalance(retailerId,entry )
+
+
+        //making the call to generate checksum
+        call.enqueue(object : Callback<WalletResponse> {
+            override fun onResponse(
+                call: Call<WalletResponse>,
+                response: Response<WalletResponse>
+            ) {
+                progress_bar.visibility = View.GONE
+                if (response.body()!!.status == true) {
+
+                    walletBalance=response.body()!!.data.toString()
+
+                    /*  Toast.makeText(
+                          this@NewMainActivity,
+                          response.body()!!.message,
+                          Toast.LENGTH_SHORT
+                      ).show()*/
+
+                } else {
+                    Toast.makeText(
+                        this@ITRActivity,
+                        response.body()!!.message,
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                }
+
+
+                //once we get the checksum we will initiailize the payment.
+                //the method is taking the checksum we got and the paytm object as the parameter
+            }
+
+            override fun onFailure(call: Call<WalletResponse>, t: Throwable) {
+                progress_bar.visibility = View.GONE
+                // callServiceFalse(mobileNo);
+                Toast.makeText(this@ITRActivity, t.message, Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
 
 }

@@ -32,12 +32,15 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.spindia.rechargeapp.aadharUdhyog.AadharUdhyogActivity
+import com.spindia.rechargeapp.aadharUdhyog.UdhyogReportActivity
 import com.spindia.rechargeapp.authentication.LoginActivity
 import com.spindia.rechargeapp.authentication.response.WalletResponse
 import com.spindia.rechargeapp.dth.DthRechargeActivity
 import com.spindia.rechargeapp.electricity.ElectricityRechargeActivity
 import com.spindia.rechargeapp.gstRegstration.GSTRegistrationActivity
+import com.spindia.rechargeapp.gstRegstration.GSTReportActivity
 import com.spindia.rechargeapp.itr.ITRActivity
+import com.spindia.rechargeapp.itr.ITRReportActivity
 import com.spindia.rechargeapp.model.BannerModel
 import com.spindia.rechargeapp.network.Preferences
 import com.spindia.rechargeapp.network_calls.AppApiCalls
@@ -128,6 +131,9 @@ class NewMainActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteListen
     lateinit var rl_gstreg:LinearLayout
     lateinit var rl_itr:LinearLayout
     lateinit var rl_adharudhyog:LinearLayout
+    lateinit var rl_gstreglist:LinearLayout
+    lateinit var rl_adharudhyogList:LinearLayout
+    lateinit var rl_itrList:LinearLayout
 
     lateinit var ivLogoutBtn:ImageView
 
@@ -197,6 +203,9 @@ class NewMainActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteListen
         rl_gstreg=findViewById(R.id.rl_gstreg)
         rl_itr=findViewById(R.id.rl_itr)
         rl_adharudhyog=findViewById(R.id.rl_adharudhyog)
+        rl_gstreglist=findViewById(R.id.rl_gstreglist)
+        rl_adharudhyogList=findViewById(R.id.rl_adharudhyogList)
+        rl_itrList=findViewById(R.id.rl_itrList)
 
         MobileAds.initialize(
             this
@@ -267,6 +276,20 @@ class NewMainActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteListen
             startActivity(intent)
         }
 
+        rl_gstreglist.setOnClickListener {
+            val intent = Intent(this, GSTReportActivity::class.java)
+            startActivity(intent)
+        }
+
+        rl_adharudhyogList.setOnClickListener {
+            val intent = Intent(this, UdhyogReportActivity::class.java)
+            startActivity(intent)
+        }
+
+        rl_itrList.setOnClickListener {
+            val intent = Intent(this, ITRReportActivity::class.java)
+            startActivity(intent)
+        }
 
 
         iVWhatsapp.setOnClickListener {
