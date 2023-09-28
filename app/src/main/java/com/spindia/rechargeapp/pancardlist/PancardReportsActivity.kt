@@ -221,7 +221,7 @@ class PancardReportsActivity : AppCompatActivity(),
 
                         layoutManager = LinearLayoutManager(this@PancardReportsActivity)
                         pancardAdapter = PancardListAdapter(
-                            context, pancardListModalArrayList, retryClick,editClick, statusClick,pdfClick,panInfoClick
+                            context, pancardListModalArrayList, retryClick,editClick, statusClick,pdfClick,panInfoClick,panDownloadClick
                         )
                         rvPancardHistory.adapter = pancardAdapter
                     }
@@ -341,16 +341,24 @@ class PancardReportsActivity : AppCompatActivity(),
 
         val document=pancardListModalArrayList.get(i).document
 
-        var amount="20"
-        if (walletBalance.toDouble() >= amount.toDouble())
-        {
-            callServiceDeductWallet(amount,document)
-        }
-
+        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(document))
+        startActivity(browserIntent)
 
 
     }
 
+    var panDownloadClick = View.OnClickListener { v ->
+        val i = v.tag as Int
+
+        var panPdf=pancardListModalArrayList.get(i).panpdf
+
+        var amount="20"
+        if (walletBalance.toDouble() >= amount.toDouble())
+        {
+            callServiceDeductWallet(amount,panPdf)
+        }
+
+    }
 
 
     var panInfoClick = View.OnClickListener { v ->
@@ -1133,9 +1141,11 @@ class PancardReportsActivity : AppCompatActivity(),
                 progress_bar.visibility = View.GONE
                 if (response.body()!!.status == true) {
 
+                    var baseUrl="http://spindiapan.com/"
 
+                    var url=baseUrl+document
 
-                    val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(document))
+                    val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
                     startActivity(browserIntent)
 
 

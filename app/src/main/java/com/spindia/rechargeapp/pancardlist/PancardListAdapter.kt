@@ -26,7 +26,8 @@ class PancardListAdapter(
     editClick:View.OnClickListener,
     statusClick:View.OnClickListener,
     pdfClick:View.OnClickListener,
-    panInfoClick: View.OnClickListener
+    panInfoClick: View.OnClickListener,
+    panDownloadClick: View.OnClickListener
 ) :
     RecyclerView.Adapter<PancardListAdapter.ViewHolder>() {
     private var pancardModalList: List<PanCardlistResponse>
@@ -37,6 +38,7 @@ class PancardListAdapter(
     private var statusClick: View.OnClickListener
     private var pdfClick: View.OnClickListener
     private var panInfoClick: View.OnClickListener
+    private var panDownloadClick: View.OnClickListener
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -122,6 +124,13 @@ class PancardListAdapter(
             holder.ivPdf.visibility=View.GONE
         }
 
+        if(!pancardModal.panno.equals("0"))
+        {
+            holder.btnpanDownload.visibility=View.VISIBLE
+        }else{
+            holder.btnpanDownload.visibility=View.GONE
+        }
+
         holder.tvPayBtn.setTag(position)
         holder.tvPayBtn.setOnClickListener(retryClick)
 
@@ -137,6 +146,9 @@ class PancardListAdapter(
 
         holder.btnpanInfo.setTag(position)
         holder.btnpanInfo.setOnClickListener(panInfoClick)
+
+        holder.btnpanDownload.setTag(position)
+        holder.btnpanDownload.setOnClickListener(panDownloadClick)
 
         /* if (rechargeHistoryModal.){
 
@@ -165,6 +177,7 @@ class PancardListAdapter(
         var tvStatusBtn:TextView
         var ivPdf:ImageView
         var btnpanInfo: Button
+        var btnpanDownload:Button
 
         init {
             tvToken=itemView.findViewById(R.id.tvToken)
@@ -181,6 +194,7 @@ class PancardListAdapter(
             tvStatusBtn=itemView.findViewById(R.id.tvStatusBtn)
             ivPdf=itemView.findViewById(R.id.ivPdf)
             btnpanInfo=itemView.findViewById(R.id.btnpanInfo);
+            btnpanDownload=itemView.findViewById(R.id.btnpanDownload)
 
         }
     }
@@ -196,5 +210,6 @@ class PancardListAdapter(
         this.statusClick=statusClick
         this.pdfClick=pdfClick
         this.panInfoClick=panInfoClick
+        this.panDownloadClick=panDownloadClick
     }
 }

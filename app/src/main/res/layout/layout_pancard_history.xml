@@ -229,17 +229,33 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/_14sdp" />
 
+            <Button
+                android:visibility="visible"
+                android:id="@+id/btnpanDownload"
+                android:layout_width="150dp"
+                android:layout_height="35dp"
+                android:layout_below="@+id/text_name"
+                android:background="@drawable/bg_buttons"
+                android:text="PAN Download"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="@dimen/_6sdp"
+                android:textColor="#ffffff"
+                android:textSize="11sp" />
+
+
 
             <ImageView
                 android:id="@+id/ivPdf"
                 android:layout_width="100dp"
                 android:layout_height="@dimen/_40sdp"
-                android:layout_below="@+id/text_name"
+                android:layout_below="@+id/btnpanDownload"
                 android:layout_marginLeft="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_6sdp"
                 android:layout_marginBottom="@dimen/_6sdp"
                 android:padding="@dimen/_3sdp"
                 android:src="@drawable/pdfdnld" />
+
 
 
             <Button
